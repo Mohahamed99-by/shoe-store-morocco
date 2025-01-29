@@ -31,7 +31,7 @@ import {
 import { FiHeart, FiSearch, FiCalendar, FiUser, FiShoppingBag } from 'react-icons/fi';
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3001';
+const API_URL = 'https://shoe-store-morocco.onrender.com';
 
 const Products = () => {
   const [searchParams, setSearchParams] = useSearchParams();

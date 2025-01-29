@@ -54,7 +54,7 @@ const ProductDetail = () => {
     const fetchProduct = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`http://localhost:3001/products/${id}`);
+        const response = await axios.get(`https://shoe-store-morocco.onrender.com/products/${id}`);
         const productData = response.data;
         
         // Set default values for missing fields
