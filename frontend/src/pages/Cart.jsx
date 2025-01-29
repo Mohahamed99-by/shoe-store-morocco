@@ -35,7 +35,10 @@ const Cart = () => {
   } = useCart();
 
   const bgColor = useColorModeValue('white', 'gray.800');
-  const borderColor = useColorModeValue('gray.200', 'gray.700');
+  const borderColor = useColorModeValue('teal.100', 'teal.700');
+  const textColor = useColorModeValue('gray.700', 'gray.300');
+  const primaryColor = useColorModeValue('teal.500', 'teal.300');
+  const secondaryColor = useColorModeValue('purple.500', 'purple.300');
 
   const handleQuantityChange = (item, change) => {
     const newQuantity = item.quantity + change;
@@ -68,8 +71,13 @@ const Cart = () => {
           <Button
             as={RouterLink}
             to="/products"
-            colorScheme="blue"
+            colorScheme="teal"
             leftIcon={<ArrowBackIcon />}
+            _hover={{
+              transform: 'translateY(-2px)',
+              shadow: 'md',
+            }}
+            transition="all 0.3s"
           >
             تصفح المنتجات
           </Button>
@@ -114,10 +122,11 @@ const Cart = () => {
                           colorScheme="red"
                           onClick={() => handleRemoveItem(item)}
                           aria-label="Remove item"
-                          _hover={{ bg: 'red.50' }}
+                          _hover={{ bg: 'red.50', transform: 'scale(1.1)' }}
+                          transition="all 0.2s"
                         />
                       </HStack>
-                      <Text color="gray.600" fontSize="sm">
+                      <Text color={textColor} fontSize="sm">
                         {item.brand} • المقاس: {item.size} • اللون: {item.color}
                       </Text>
                     </Box>
@@ -130,9 +139,9 @@ const Cart = () => {
                           isDisabled={item.quantity <= 1}
                           aria-label="Decrease quantity"
                           variant="outline"
-                          colorScheme="blue"
+                          colorScheme="teal"
                         />
-                        <Text fontWeight="bold" minW="32px" textAlign="center">
+                        <Text fontWeight="bold" minW="32px" textAlign="center" color={textColor}>
                           {item.quantity}
                         </Text>
                         <IconButton
@@ -141,10 +150,10 @@ const Cart = () => {
                           onClick={() => handleQuantityChange(item, 1)}
                           aria-label="Increase quantity"
                           variant="outline"
-                          colorScheme="blue"
+                          colorScheme="teal"
                         />
                       </HStack>
-                      <Text fontWeight="bold" fontSize="lg" color="blue.500">
+                      <Text fontWeight="bold" fontSize="lg" color={primaryColor}>
                         {item.price * item.quantity} ريال
                       </Text>
                     </Flex>
@@ -167,38 +176,44 @@ const Cart = () => {
             shadow="sm"
           >
             <Stack spacing={6}>
-              <Heading size="md">ملخص الطلب</Heading>
+              <Heading size="md" bgGradient="linear(to-r, teal.400, purple.500)" bgClip="text">
+                ملخص الطلب
+              </Heading>
               <Stack spacing={4}>
                 <Flex justify="space-between">
-                  <Text color="gray.600">المجموع الفرعي:</Text>
-                  <Text fontWeight="medium">{subtotal} ريال</Text>
+                  <Text color={textColor}>المجموع الفرعي:</Text>
+                  <Text fontWeight="medium" color={textColor}>{subtotal} ريال</Text>
                 </Flex>
                 <Flex justify="space-between">
-                  <Text color="gray.600">الشحن:</Text>
-                  <Text fontWeight="medium" color={shippingCost === 0 ? "green.500" : undefined}>
+                  <Text color={textColor}>الشحن:</Text>
+                  <Text fontWeight="medium" color={shippingCost === 0 ? "teal.500" : textColor}>
                     {shippingCost === 0 ? 'مجاني' : `${shippingCost} ريال`}
                   </Text>
                 </Flex>
-                <Divider />
+                <Divider borderColor={borderColor} />
                 <Flex justify="space-between" fontWeight="bold">
-                  <Text>الإجمالي:</Text>
-                  <Text color="blue.500">{total} ريال</Text>
+                  <Text color={textColor}>الإجمالي:</Text>
+                  <Text color={primaryColor}>{total} ريال</Text>
                 </Flex>
               </Stack>
 
               <Button
-                colorScheme="blue"
+                colorScheme="teal"
                 size="lg"
                 onClick={() => setIsCheckoutModalOpen(true)}
-                _hover={{ transform: 'translateY(-1px)' }}
-                transition="transform 0.2s"
+                _hover={{ 
+                  transform: 'translateY(-2px)',
+                  shadow: 'lg',
+                  bg: 'teal.600'
+                }}
+                transition="all 0.3s"
               >
                 إتمام الطلب
               </Button>
 
-              <HStack spacing={2} justify="center" color="gray.600">
+              <HStack spacing={2} justify="center" color={primaryColor}>
                 <FiTruck />
-                <Text fontSize="sm">الدفع عند الاستلام متاح</Text>
+                <Text fontSize="sm" color={textColor}>الدفع عند الاستلام متاح</Text>
               </HStack>
             </Stack>
           </Box>

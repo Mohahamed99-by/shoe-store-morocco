@@ -45,8 +45,10 @@ const Products = () => {
 
   const bgColor = useColorModeValue('gray.50', 'gray.900');
   const cardBg = useColorModeValue('white', 'gray.800');
-  const borderColor = useColorModeValue('gray.200', 'gray.700');
-  const textColor = useColorModeValue('gray.600', 'gray.400');
+  const borderColor = useColorModeValue('teal.100', 'teal.700');
+  const textColor = useColorModeValue('gray.700', 'gray.300');
+  const primaryColor = useColorModeValue('teal.500', 'teal.300');
+  const secondaryColor = useColorModeValue('purple.500', 'purple.300');
 
   // Fetch products from API
   useEffect(() => {
@@ -133,7 +135,11 @@ const Products = () => {
       borderRadius="lg"
       overflow="hidden"
       transition="all 0.3s"
-      _hover={{ transform: 'translateY(-5px)', shadow: 'lg' }}
+      _hover={{ 
+        transform: 'translateY(-5px)', 
+        shadow: 'lg',
+        borderColor: 'teal.300'
+      }}
       position="relative"
     >
       <RouterLink to={`/product/${product.id}`}>
@@ -192,20 +198,20 @@ const Products = () => {
         </VStack>
 
         <HStack justify="space-between" align="center">
-          <Text fontWeight="bold" fontSize="xl" color="blue.500">
+          <Text fontWeight="bold" fontSize="xl" color={primaryColor}>
             {product.price} ريال
           </Text>
-          <Badge colorScheme="blue" fontSize="sm" px={2} py={1}>
+          <Badge colorScheme="teal" fontSize="sm" px={2} py={1}>
             {product.brand}
           </Badge>
         </HStack>
 
         <Wrap spacing={2}>
           <WrapItem>
-            <Badge colorScheme="purple">{product.type}</Badge>
+            <Badge colorScheme="teal">{product.type}</Badge>
           </WrapItem>
           <WrapItem>
-            <Badge colorScheme="yellow">
+            <Badge colorScheme="purple">
               {product.rating} ★ ({product.reviews})
             </Badge>
           </WrapItem>
@@ -214,10 +220,16 @@ const Products = () => {
         <Button
           as={RouterLink}
           to={`/product/${product.id}`}
-          colorScheme="blue"
+          colorScheme="teal"
           width="100%"
           isDisabled={!product.inStock}
           leftIcon={<FiShoppingBag />}
+          _hover={{
+            bg: 'teal.600',
+            transform: 'translateY(-2px)',
+            shadow: 'lg',
+          }}
+          transition="all 0.3s"
         >
           {product.inStock ? 'عرض التفاصيل' : 'نفذت الكمية'}
         </Button>
@@ -228,7 +240,7 @@ const Products = () => {
   if (loading) {
     return (
       <Center h="100vh">
-        <Spinner size="xl" color="blue.500" />
+        <Spinner size="xl" color="teal.500" />
       </Center>
     );
   }
@@ -238,7 +250,7 @@ const Products = () => {
       <Center h="100vh">
         <VStack spacing={4}>
           <Heading size="md" color="red.500">{error}</Heading>
-          <Button colorScheme="blue" onClick={() => window.location.reload()}>
+          <Button colorScheme="teal" onClick={() => window.location.reload()}>
             Try Again
           </Button>
         </VStack>
@@ -249,14 +261,45 @@ const Products = () => {
   return (
     <Box>
       {/* Header Section */}
-      <Box bg={bgColor} borderBottom="1px" borderColor={borderColor} py={8}>
+      <Box 
+        bg={bgColor} 
+        borderBottom="1px" 
+        borderColor={borderColor} 
+        py={8}
+        position="relative"
+        overflow="hidden"
+      >
+        {/* Background Decoration */}
+        <Box
+          position="absolute"
+          top="-20%"
+          right="-10%"
+          width="600px"
+          height="600px"
+          bg={useColorModeValue('teal.50', 'teal.900')}
+          opacity="0.1"
+          borderRadius="full"
+        />
+        <Box
+          position="absolute"
+          bottom="-10%"
+          left="-5%"
+          width="400px"
+          height="400px"
+          bg={useColorModeValue('purple.50', 'purple.900')}
+          opacity="0.1"
+          borderRadius="full"
+        />
         <Container maxW="container.xl">
           <VStack spacing={6} align="stretch">
-            <Heading size="2xl" textAlign="center">متجر الأحذية</Heading>
+            <Heading size="2xl" textAlign="center" 
+              bgGradient="linear(to-r, teal.400, purple.500)"
+              bgClip="text"
+            >متجر الأحذية</Heading>
             <Text fontSize="lg" color={textColor} textAlign="center">
               اكتشف مجموعتنا الواسعة من الأحذية العصرية والأنيقة
             </Text>
-            <Divider maxW="100px" mx="auto" borderColor="blue.500" borderWidth={2} />
+            <Divider maxW="100px" mx="auto" borderColor="teal.500" borderWidth={2} />
           </VStack>
         </Container>
       </Box>

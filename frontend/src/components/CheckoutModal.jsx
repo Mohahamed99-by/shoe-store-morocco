@@ -177,13 +177,13 @@ ${orderDetails}
                 </FormErrorMessage>
               </FormControl>
 
-              <Alert status="info">
+              <Alert status="warning">
                 <AlertIcon />
                 سيتم الدفع عند الاستلام
               </Alert>
 
               <Button
-                colorScheme="blue"
+                colorScheme="teal"
                 size="lg"
                 width="100%"
                 type="submit"

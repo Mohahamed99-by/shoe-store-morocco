@@ -47,8 +47,10 @@ const ProductDetail = () => {
   const [error, setError] = useState(null);
 
   const bgColor = useColorModeValue('white', 'gray.800');
-  const borderColor = useColorModeValue('gray.200', 'gray.700');
-  const textColor = useColorModeValue('gray.600', 'gray.400');
+  const borderColor = useColorModeValue('teal.100', 'teal.700');
+  const textColor = useColorModeValue('gray.700', 'gray.300');
+  const primaryColor = useColorModeValue('teal.500', 'teal.300');
+  const secondaryColor = useColorModeValue('purple.500', 'purple.300');
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -166,7 +168,7 @@ const ProductDetail = () => {
                 <Box
                   key={index}
                   borderWidth={selectedImage === index ? "2px" : "1px"}
-                  borderColor={selectedImage === index ? "blue.500" : borderColor}
+                  borderColor={selectedImage === index ? "teal.500" : borderColor}
                   borderRadius="md"
                   overflow="hidden"
                   cursor="pointer"
@@ -190,10 +192,10 @@ const ProductDetail = () => {
           <Stack spacing={6} bg={bgColor} p={6} borderRadius="lg" shadow="md">
             <Box>
               <HStack spacing={2} mb={2}>
-                <Badge colorScheme="blue" fontSize="sm">
+                <Badge colorScheme="teal" fontSize="sm">
                   {product.brand}
                 </Badge>
-                <Badge colorScheme="green" fontSize="sm">
+                <Badge colorScheme="purple" fontSize="sm">
                   متوفر
                 </Badge>
               </HStack>
@@ -201,13 +203,13 @@ const ProductDetail = () => {
                 {product.name}
               </Heading>
               <HStack spacing={2} mb={4}>
-                <HStack color="yellow.400">
+                <HStack color="purple.400">
                   <FiStar fill="currentColor" />
                   <Text fontWeight="bold">{product.rating}</Text>
                 </HStack>
                 <Text color={textColor}>({product.reviews} تقييم)</Text>
               </HStack>
-              <Text fontSize="2xl" fontWeight="bold" color="blue.500">
+              <Text fontSize="2xl" fontWeight="bold" color={primaryColor}>
                 {product.price} ريال
               </Text>
             </Box>
@@ -224,9 +226,12 @@ const ProductDetail = () => {
                       key={size}
                       size="sm"
                       variant={selectedSize === size ? 'solid' : 'outline'}
-                      colorScheme="blue"
+                      colorScheme="teal"
                       onClick={() => setSelectedSize(size)}
                       w="100%"
+                      _hover={{
+                        bg: selectedSize === size ? 'teal.600' : 'teal.50',
+                      }}
                     >
                       {size}
                     </Button>
@@ -242,9 +247,12 @@ const ProductDetail = () => {
                       key={color}
                       size="sm"
                       variant={selectedColor === color ? 'solid' : 'outline'}
-                      colorScheme="blue"
+                      colorScheme="teal"
                       onClick={() => setSelectedColor(color)}
                       w="100%"
+                      _hover={{
+                        bg: selectedColor === color ? 'teal.600' : 'teal.50',
+                      }}
                     >
                       {color}
                     </Button>
@@ -258,15 +266,19 @@ const ProductDetail = () => {
                   <Button
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
                     disabled={quantity <= 1}
+                    colorScheme="teal"
+                    variant="outline"
                   >
                     -
                   </Button>
-                  <Text px={4} fontWeight="bold">
+                  <Text px={4} fontWeight="bold" color={textColor}>
                     {quantity}
                   </Text>
                   <Button
                     onClick={() => setQuantity(quantity + 1)}
                     disabled={quantity >= 10}
+                    colorScheme="teal"
+                    variant="outline"
                   >
                     +
                   </Button>
@@ -275,11 +287,17 @@ const ProductDetail = () => {
             </Stack>
 
             <Button
-              colorScheme="blue"
+              colorScheme="teal"
               size="lg"
               leftIcon={<FiShoppingCart />}
               onClick={handleAddToCart}
               isFullWidth
+              _hover={{
+                bg: 'teal.600',
+                transform: 'translateY(-2px)',
+                shadow: 'lg',
+              }}
+              transition="all 0.3s"
             >
               إضافة إلى السلة
             </Button>
@@ -288,11 +306,15 @@ const ProductDetail = () => {
             <SimpleGrid columns={{ base: 1, md: 3 }} spacing={4}>
               <VStack
                 p={4}
-                bg={useColorModeValue('gray.50', 'gray.700')}
+                bg={useColorModeValue('teal.50', 'rgba(49, 151, 149, 0.1)')}
                 borderRadius="md"
                 align="center"
+                transition="all 0.3s"
+                _hover={{ transform: 'translateY(-2px)', shadow: 'md' }}
               >
-                <FiTruck size={24} />
+                <Box color="teal.500">
+                  <FiTruck size={24} />
+                </Box>
                 <Text fontWeight="bold" fontSize="sm">شحن مجاني</Text>
                 <Text fontSize="sm" color={textColor} textAlign="center">
                   للطلبات فوق 200 ريال
@@ -300,11 +322,15 @@ const ProductDetail = () => {
               </VStack>
               <VStack
                 p={4}
-                bg={useColorModeValue('gray.50', 'gray.700')}
+                bg={useColorModeValue('purple.50', 'rgba(128, 90, 213, 0.1)')}
                 borderRadius="md"
                 align="center"
+                transition="all 0.3s"
+                _hover={{ transform: 'translateY(-2px)', shadow: 'md' }}
               >
-                <FiRefreshCcw size={24} />
+                <Box color="purple.500">
+                  <FiRefreshCcw size={24} />
+                </Box>
                 <Text fontWeight="bold" fontSize="sm">إرجاع مجاني</Text>
                 <Text fontSize="sm" color={textColor} textAlign="center">
                   خلال 30 يوم
@@ -312,11 +338,15 @@ const ProductDetail = () => {
               </VStack>
               <VStack
                 p={4}
-                bg={useColorModeValue('gray.50', 'gray.700')}
+                bg={useColorModeValue('teal.50', 'rgba(49, 151, 149, 0.1)')}
                 borderRadius="md"
                 align="center"
+                transition="all 0.3s"
+                _hover={{ transform: 'translateY(-2px)', shadow: 'md' }}
               >
-                <FiShield size={24} />
+                <Box color="teal.500">
+                  <FiShield size={24} />
+                </Box>
                 <Text fontWeight="bold" fontSize="sm">ضمان الجودة</Text>
                 <Text fontSize="sm" color={textColor} textAlign="center">
                   منتجات أصلية 100%
@@ -325,7 +355,7 @@ const ProductDetail = () => {
             </SimpleGrid>
 
             {/* Tabs */}
-            <Tabs>
+            <Tabs colorScheme="teal">
               <TabList>
                 <Tab>الوصف</Tab>
                 <Tab>المميزات</Tab>
@@ -341,7 +371,7 @@ const ProductDetail = () => {
                   <List spacing={3}>
                     {product.features.map((feature, index) => (
                       <ListItem key={index}>
-                        <ListIcon as={FiCheck} color="green.500" />
+                        <ListIcon as={FiCheck} color="teal.500" />
                         {feature}
                       </ListItem>
                     ))}
@@ -368,7 +398,7 @@ const ProductDetail = () => {
                               <Progress
                                 value={(count / totalReviews) * 100}
                                 size="sm"
-                                colorScheme="yellow"
+                                colorScheme="teal"
                                 flex="1"
                               />
                               <Text w="40px">{count}</Text>
