@@ -1,0 +1,384 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "حذاء رياضي نايكي اير ماكس للرجال",
+      "price": 299,
+      "image": "https://images.unsplash.com/photo-1542291026-7eec264c27ff",
+      "images": [
+        "https://images.unsplash.com/photo-1542291026-7eec264c27ff",
+        "https://images.unsplash.com/photo-1576672843344-f01907a9d40c",
+        "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a"
+      ],
+      "category": "men",
+      "type": "رياضي",
+      "brand": "Nike",
+      "sizes": [40, 41, 42, 43, 44, 45],
+      "colors": ["أسود", "أبيض", "رمادي"],
+      "inStock": true,
+      "rating": 4.5,
+      "reviews": 128
+    },
+    {
+      "id": 2,
+      "name": "حذاء كاجوال جلد للرجال",
+      "price": 199,
+      "image": "https://images.unsplash.com/photo-1549298916-b41d501d3772",
+      "images": [
+        "https://images.unsplash.com/photo-1549298916-b41d501d3772",
+        "https://images.unsplash.com/photo-1531310197839-ccf54634509e",
+        "https://images.unsplash.com/photo-1607522370275-f14206abe5d3"
+      ],
+      "category": "men",
+      "type": "كاجوال",
+      "brand": "Clarks",
+      "sizes": [40, 41, 42, 43, 44],
+      "colors": ["بني", "أسود", "بني فاتح"],
+      "inStock": true,
+      "rating": 4.3,
+      "reviews": 95
+    },
+    {
+      "id": 3,
+      "name": "حذاء رياضي نسائي أديداس",
+      "price": 249,
+      "image": "https://images.unsplash.com/photo-1585232004423-244e0e6904e3",
+      "images": [
+        "https://images.unsplash.com/photo-1585232004423-244e0e6904e3",
+        "https://images.unsplash.com/photo-1581101767113-1677fc2beaa8",
+        "https://images.unsplash.com/photo-1571736444983-5b58ba8b115f"
+      ],
+      "category": "women",
+      "type": "رياضي",
+      "brand": "Adidas",
+      "sizes": [36, 37, 38, 39, 40, 41],
+      "colors": ["وردي", "أبيض", "أزرق فاتح"],
+      "inStock": true,
+      "rating": 4.7,
+      "reviews": 156
+    },
+    {
+      "id": 4,
+      "name": "حذاء كعب عالي أنيق",
+      "price": 329,
+      "image": "https://images.unsplash.com/photo-1543163521-1bf539c55dd2",
+      "images": [
+        "https://images.unsplash.com/photo-1543163521-1bf539c55dd2",
+        "https://images.unsplash.com/photo-1576672843344-f01907a9d40c",
+        "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a"
+      ],
+      "category": "women",
+      "type": "رسمي",
+      "brand": "Jimmy Choo",
+      "sizes": [36, 37, 38, 39, 40],
+      "colors": ["أسود", "أحمر", "ذهبي"],
+      "inStock": true,
+      "rating": 4.8,
+      "reviews": 89
+    },
+    {
+      "id": 5,
+      "name": "حذاء رياضي بوما للأطفال",
+      "price": 149,
+      "image": "https://images.unsplash.com/photo-1507464098880-e367bc5d2c08",
+      "images": [
+        "https://images.unsplash.com/photo-1507464098880-e367bc5d2c08",
+        "https://images.unsplash.com/photo-1531310197839-ccf54634509e",
+        "https://images.unsplash.com/photo-1607522370275-f14206abe5d3"
+      ],
+      "category": "kids",
+      "type": "رياضي",
+      "brand": "Puma",
+      "sizes": [28, 29, 30, 31, 32, 33, 34],
+      "colors": ["أزرق", "أحمر", "أسود"],
+      "inStock": true,
+      "rating": 4.6,
+      "reviews": 75
+    },
+    {
+      "id": 6,
+      "name": "حذاء مدرسي للأطفال",
+      "price": 129,
+      "image": "https://images.unsplash.com/photo-1571141580620-83a8024b4714",
+      "images": [
+        "https://images.unsplash.com/photo-1571141580620-83a8024b4714",
+        "https://images.unsplash.com/photo-1581101767113-1677fc2beaa8",
+        "https://images.unsplash.com/photo-1571736444983-5b58ba8b115f"
+      ],
+      "category": "kids",
+      "type": "مدرسي",
+      "brand": "Sketchers",
+      "sizes": [28, 29, 30, 31, 32, 33, 34],
+      "colors": ["أسود", "بني"],
+      "inStock": true,
+      "rating": 4.4,
+      "reviews": 62
+    },
+    {
+      "id": 7,
+      "name": "حذاء رياضي نايكي جوردن",
+      "price": 399,
+      "image": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a",
+      "images": [
+        "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a",
+        "https://images.unsplash.com/photo-1576672843344-f01907a9d40c",
+        "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a"
+      ],
+      "category": "men",
+      "type": "رياضي",
+      "brand": "Nike",
+      "sizes": [41, 42, 43, 44, 45],
+      "colors": ["أحمر", "أسود", "أبيض"],
+      "inStock": true,
+      "rating": 4.9,
+      "reviews": 215
+    },
+    {
+      "id": 8,
+      "name": "حذاء نسائي كاجوال",
+      "price": 179,
+      "image": "https://images.unsplash.com/photo-1581101767113-1677fc2beaa8",
+      "images": [
+        "https://images.unsplash.com/photo-1581101767113-1677fc2beaa8",
+        "https://images.unsplash.com/photo-1531310197839-ccf54634509e",
+        "https://images.unsplash.com/photo-1607522370275-f14206abe5d3"
+      ],
+      "category": "women",
+      "type": "كاجوال",
+      "brand": "Vans",
+      "sizes": [36, 37, 38, 39, 40],
+      "colors": ["أسود", "أبيض", "وردي"],
+      "inStock": true,
+      "rating": 4.4,
+      "reviews": 83
+    },
+    {
+      "id": 9,
+      "name": "حذاء رياضي أديداس ألترا بوست",
+      "price": 449,
+      "image": "https://images.unsplash.com/photo-1587563871167-1ee9c731aefb",
+      "images": [
+        "https://images.unsplash.com/photo-1587563871167-1ee9c731aefb",
+        "https://images.unsplash.com/photo-1581101767113-1677fc2beaa8",
+        "https://images.unsplash.com/photo-1571736444983-5b58ba8b115f"
+      ],
+      "category": "men",
+      "type": "رياضي",
+      "brand": "Adidas",
+      "sizes": [40, 41, 42, 43, 44, 45],
+      "colors": ["أسود", "رمادي", "أزرق"],
+      "inStock": true,
+      "rating": 4.7,
+      "reviews": 167
+    },
+    {
+      "id": 10,
+      "name": "حذاء نسائي رياضي نايكي",
+      "price": 279,
+      "image": "https://images.unsplash.com/photo-1597248881519-db089d3744a5",
+      "images": [
+        "https://images.unsplash.com/photo-1597248881519-db089d3744a5",
+        "https://images.unsplash.com/photo-1576672843344-f01907a9d40c",
+        "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a"
+      ],
+      "category": "women",
+      "type": "رياضي",
+      "brand": "Nike",
+      "sizes": [36, 37, 38, 39, 40],
+      "colors": ["وردي", "أبيض", "أسود"],
+      "inStock": true,
+      "rating": 4.6,
+      "reviews": 142
+    },
+    {
+      "id": 11,
+      "name": "حذاء رسمي جلد للرجال",
+      "price": 299,
+      "image": "https://images.unsplash.com/photo-1614252369475-531eba835eb1",
+      "images": [
+        "https://images.unsplash.com/photo-1614252369475-531eba835eb1",
+        "https://images.unsplash.com/photo-1531310197839-ccf54634509e",
+        "https://images.unsplash.com/photo-1607522370275-f14206abe5d3"
+      ],
+      "category": "men",
+      "type": "رسمي",
+      "brand": "Clarks",
+      "sizes": [40, 41, 42, 43, 44],
+      "colors": ["بني", "أسود"],
+      "inStock": true,
+      "rating": 4.5,
+      "reviews": 98
+    },
+    {
+      "id": 12,
+      "name": "حذاء نسائي رياضي بوما",
+      "price": 229,
+      "image": "https://images.unsplash.com/photo-1608231387042-66d1773070a5",
+      "images": [
+        "https://images.unsplash.com/photo-1608231387042-66d1773070a5",
+        "https://images.unsplash.com/photo-1581101767113-1677fc2beaa8",
+        "https://images.unsplash.com/photo-1571736444983-5b58ba8b115f"
+      ],
+      "category": "women",
+      "type": "رياضي",
+      "brand": "Puma",
+      "sizes": [36, 37, 38, 39, 40],
+      "colors": ["أبيض", "وردي", "أسود"],
+      "inStock": true,
+      "rating": 4.4,
+      "reviews": 76
+    },
+    {
+      "id": 13,
+      "name": "حذاء أطفال رياضي نايكي",
+      "price": 159,
+      "image": "https://images.unsplash.com/photo-1515347619252-60a4bf4fff4f",
+      "images": [
+        "https://images.unsplash.com/photo-1515347619252-60a4bf4fff4f",
+        "https://images.unsplash.com/photo-1576672843344-f01907a9d40c",
+        "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a"
+      ],
+      "category": "kids",
+      "type": "رياضي",
+      "brand": "Nike",
+      "sizes": [28, 29, 30, 31, 32, 33],
+      "colors": ["أزرق", "أحمر", "أسود"],
+      "inStock": true,
+      "rating": 4.7,
+      "reviews": 89
+    },
+    {
+      "id": 14,
+      "name": "حذاء رجالي رياضي ريبوك",
+      "price": 269,
+      "image": "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa",
+      "images": [
+        "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa",
+        "https://images.unsplash.com/photo-1531310197839-ccf54634509e",
+        "https://images.unsplash.com/photo-1607522370275-f14206abe5d3"
+      ],
+      "category": "men",
+      "type": "رياضي",
+      "brand": "Reebok",
+      "sizes": [40, 41, 42, 43, 44, 45],
+      "colors": ["أسود", "رمادي", "أبيض"],
+      "inStock": true,
+      "rating": 4.3,
+      "reviews": 112
+    },
+    {
+      "id": 15,
+      "name": "حذاء نسائي كعب متوسط",
+      "price": 249,
+      "image": "https://images.unsplash.com/photo-1535043934128-cf0b28d52f95",
+      "images": [
+        "https://images.unsplash.com/photo-1535043934128-cf0b28d52f95",
+        "https://images.unsplash.com/photo-1581101767113-1677fc2beaa8",
+        "https://images.unsplash.com/photo-1571736444983-5b58ba8b115f"
+      ],
+      "category": "women",
+      "type": "رسمي",
+      "brand": "Nine West",
+      "sizes": [36, 37, 38, 39, 40],
+      "colors": ["أسود", "بيج", "أحمر"],
+      "inStock": true,
+      "rating": 4.5,
+      "reviews": 94
+    },
+    {
+      "id": 16,
+      "name": "حذاء أطفال كاجوال",
+      "price": 139,
+      "image": "https://images.unsplash.com/photo-1514989940723-e8e51635b782",
+      "images": [
+        "https://images.unsplash.com/photo-1514989940723-e8e51635b782",
+        "https://images.unsplash.com/photo-1576672843344-f01907a9d40c",
+        "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a"
+      ],
+      "category": "kids",
+      "type": "كاجوال",
+      "brand": "Converse",
+      "sizes": [28, 29, 30, 31, 32, 33],
+      "colors": ["أبيض", "أسود", "أحمر"],
+      "inStock": true,
+      "rating": 4.4,
+      "reviews": 67
+    },
+    {
+      "id": 17,
+      "name": "حذاء رجالي كاجوال نايكي",
+      "price": 219,
+      "image": "https://images.unsplash.com/photo-1579338559194-a162d19bf842",
+      "images": [
+        "https://images.unsplash.com/photo-1579338559194-a162d19bf842",
+        "https://images.unsplash.com/photo-1531310197839-ccf54634509e",
+        "https://images.unsplash.com/photo-1607522370275-f14206abe5d3"
+      ],
+      "category": "men",
+      "type": "كاجوال",
+      "brand": "Nike",
+      "sizes": [40, 41, 42, 43, 44],
+      "colors": ["أسود", "رمادي", "كحلي"],
+      "inStock": true,
+      "rating": 4.6,
+      "reviews": 134
+    },
+    {
+      "id": 18,
+      "name": "حذاء نسائي رياضي أديداس",
+      "price": 289,
+      "image": "https://images.unsplash.com/photo-1571736444983-5b58ba8b115f",
+      "images": [
+        "https://images.unsplash.com/photo-1571736444983-5b58ba8b115f",
+        "https://images.unsplash.com/photo-1581101767113-1677fc2beaa8",
+        "https://images.unsplash.com/photo-1571736444983-5b58ba8b115f"
+      ],
+      "category": "women",
+      "type": "رياضي",
+      "brand": "Adidas",
+      "sizes": [36, 37, 38, 39, 40],
+      "colors": ["أبيض", "أسود", "رمادي"],
+      "inStock": true,
+      "rating": 4.7,
+      "reviews": 156
+    },
+    {
+      "id": 19,
+      "name": "حذاء أطفال رياضي أديداس",
+      "price": 169,
+      "image": "https://images.unsplash.com/photo-1595341888016-a392ef81b7de",
+      "images": [
+        "https://images.unsplash.com/photo-1595341888016-a392ef81b7de",
+        "https://images.unsplash.com/photo-1576672843344-f01907a9d40c",
+        "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a"
+      ],
+      "category": "kids",
+      "type": "رياضي",
+      "brand": "Adidas",
+      "sizes": [28, 29, 30, 31, 32, 33],
+      "colors": ["أزرق", "أحمر", "أسود"],
+      "inStock": true,
+      "rating": 4.5,
+      "reviews": 83
+    },
+    {
+      "id": 20,
+      "name": "حذاء رجالي رسمي أكسفورد",
+      "price": 359,
+      "image": "https://images.unsplash.com/photo-1614252937541-6638dce8b561",
+      "images": [
+        "https://images.unsplash.com/photo-1614252937541-6638dce8b561",
+        "https://images.unsplash.com/photo-1531310197839-ccf54634509e",
+        "https://images.unsplash.com/photo-1607522370275-f14206abe5d3"
+      ],
+      "category": "men",
+      "type": "رسمي",
+      "brand": "Oxford",
+      "sizes": [40, 41, 42, 43, 44],
+      "colors": ["بني", "أسود", "بني فاتح"],
+      "inStock": true,
+      "rating": 4.8,
+      "reviews": 127
+    }
+  ]
+}
