@@ -1,25 +1,5 @@
 import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
-import {
-  Box,
-  Container,
-  Stack,
-  SimpleGrid,
-  Text,
-  Link,
-  Button,
-  Input,
-  InputGroup,
-  InputRightElement,
-  VStack,
-  HStack,
-  Icon,
-  Divider,
-  useColorModeValue,
-  Image,
-  Flex,
-  IconButton,
-} from '@chakra-ui/react';
+import { Link } from 'react-router-dom';
 import {
   FiFacebook,
   FiTwitter,
@@ -31,106 +11,63 @@ import {
   FiArrowLeft,
 } from 'react-icons/fi';
 
-const SocialButton = ({ icon, href }) => {
-  const iconColor = useColorModeValue('gray.600', 'gray.300');
-  const hoverBg = useColorModeValue('blue.50', 'blue.800');
-  const hoverColor = useColorModeValue('blue.500', 'blue.300');
-
+const SocialButton = ({ icon: Icon, href }) => {
   return (
-    <IconButton
-      as="a"
+    <a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      aria-label={`Visit our ${icon.name}`}
-      icon={<Icon as={icon} />}
-      size={{ base: 'sm', md: 'md' }}
-      variant="ghost"
-      color={iconColor}
-      rounded="full"
-      _hover={{
-        bg: hoverBg,
-        color: hoverColor,
-        transform: 'translateY(-2px)',
-      }}
-      transition="all 0.3s"
-    />
+      className="inline-flex items-center justify-center w-10 h-10 rounded-full text-gray-400 hover:text-teal-300 hover:-translate-y-1 transition-all duration-300"
+    >
+      <Icon className="w-5 h-5" />
+    </a>
   );
 };
 
 const Footer = () => {
-  const footerBg = useColorModeValue('gray.50', 'gray.900');
-  const borderColor = useColorModeValue('gray.200', 'gray.700');
-  const textColor = useColorModeValue('gray.600', 'gray.400');
-  const headingColor = useColorModeValue('gray.800', 'white');
-  const inputBg = useColorModeValue('white', 'gray.800');
-  const iconBg = useColorModeValue('blue.50', 'blue.900');
-  const iconColor = useColorModeValue('blue.500', 'blue.200');
-
   return (
-    <Box
-      bg={useColorModeValue('gray.900', 'gray.800')}
-      color={useColorModeValue('gray.200', 'gray.200')}
-      position="relative"
-      overflow="hidden"
-    >
+    <footer className="relative overflow-hidden bg-gray-900 text-gray-200">
       {/* Background Pattern */}
-      <Box
-        position="absolute"
-        top={0}
-        left={0}
-        right={0}
-        bottom={0}
-        bgGradient="radial(circle at top right, blue.500 0%, transparent 60%)"
-        opacity={0.1}
-      />
+      <div className="absolute inset-0 bg-gradient-to-tr from-transparent to-blue-500/10" />
 
-      <Container maxW="container.xl" py={{ base: 12, md: 16 }} position="relative">
-        <Stack spacing={12}>
+      <div className="container relative mx-auto px-4 py-12 md:py-16 max-w-7xl">
+        <div className="space-y-12">
           {/* Top Section */}
-          <SimpleGrid
-            templateColumns={{
-              base: '1fr',
-              md: 'repeat(2, 1fr)',
-              lg: '2fr 1fr 1fr 1.2fr',
-            }}
-            spacing={{ base: 10, md: 16 }}
-          >
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1.2fr] gap-10 md:gap-16">
             {/* About Section */}
-            <Stack spacing={6}>
-              <Box>
-                <Image
+            <div className="space-y-6">
+              <div>
+                <img
                   src="/logo.svg"
                   alt="Logo"
-                  h={{ base: "40px", md: "45px" }}
-                  filter="brightness(0) invert(1)"
+                  className="h-10 md:h-11 brightness-0 invert"
                 />
-              </Box>
-              <Text fontSize="sm" maxW="400px" lineHeight="tall" color="gray.400">
+              </div>
+              <p className="text-sm max-w-md text-gray-400 leading-relaxed">
                 نحن نقدم أفضل الأحذية العالمية بأسعار تنافسية. جودة عالية وخدمة ممتازة هي أولويتنا.
-              </Text>
-              <VStack spacing={4} align="flex-start">
-                <HStack spacing={4} color="gray.400">
-                  <Icon as={FiMapPin} color="teal.400" boxSize={5} />
-                  <Text fontSize="sm">الرياض، المملكة العربية السعودية</Text>
-                </HStack>
-                <HStack spacing={4} color="gray.400">
-                  <Icon as={FiPhone} color="teal.400" boxSize={5} />
-                  <Text fontSize="sm" dir="ltr">+966 50 123 4567</Text>
-                </HStack>
-                <HStack spacing={4} color="gray.400">
-                  <Icon as={FiMail} color="teal.400" boxSize={5} />
-                  <Text fontSize="sm">info@shoesstore.com</Text>
-                </HStack>
-              </VStack>
-            </Stack>
+              </p>
+              <div className="space-y-4">
+                <div className="flex items-center gap-4 text-gray-400">
+                  <FiMapPin className="w-5 h-5 text-teal-400" />
+                  <span className="text-sm">الرياض، المملكة العربية السعودية</span>
+                </div>
+                <div className="flex items-center gap-4 text-gray-400">
+                  <FiPhone className="w-5 h-5 text-teal-400" />
+                  <span className="text-sm" dir="ltr">+966 50 123 4567</span>
+                </div>
+                <div className="flex items-center gap-4 text-gray-400">
+                  <FiMail className="w-5 h-5 text-teal-400" />
+                  <span className="text-sm">info@shoesstore.com</span>
+                </div>
+              </div>
+            </div>
 
             {/* Quick Links */}
-            <Stack align="flex-start" spacing={6}>
-              <Text fontSize="lg" fontWeight="600" color="white">
+            <div className="space-y-6">
+              <h3 className="text-lg font-semibold text-white">
                 روابط سريعة
-              </Text>
-              <Stack spacing={3} align="flex-start">
+              </h3>
+              <div className="flex flex-col space-y-3">
                 {[
                   { label: 'من نحن', path: '/about' },
                   { label: 'تواصل معنا', path: '/contact' },
@@ -140,28 +77,21 @@ const Footer = () => {
                 ].map((link) => (
                   <Link
                     key={link.path}
-                    as={RouterLink}
                     to={link.path}
-                    fontSize="sm"
-                    color="gray.400"
-                    _hover={{
-                      color: 'teal.300',
-                      transform: 'translateX(-4px)'
-                    }}
-                    transition="all 0.2s"
+                    className="text-sm text-gray-400 hover:text-teal-300 hover:-translate-x-1 transition-all duration-200"
                   >
                     {link.label}
                   </Link>
                 ))}
-              </Stack>
-            </Stack>
+              </div>
+            </div>
 
             {/* Customer Service */}
-            <Stack align="flex-start" spacing={6}>
-              <Text fontSize="lg" fontWeight="600" color="white">
+            <div className="space-y-6">
+              <h3 className="text-lg font-semibold text-white">
                 خدمة العملاء
-              </Text>
-              <Stack spacing={3} align="flex-start">
+              </h3>
+              <div className="flex flex-col space-y-3">
                 {[
                   { label: 'مركز المساعدة', path: '/help' },
                   { label: 'سياسة الإرجاع', path: '/returns' },
@@ -171,109 +101,60 @@ const Footer = () => {
                 ].map((link) => (
                   <Link
                     key={link.path}
-                    as={RouterLink}
                     to={link.path}
-                    fontSize="sm"
-                    color="gray.400"
-                    _hover={{
-                      color: 'teal.300',
-                      transform: 'translateX(-4px)'
-                    }}
-                    transition="all 0.2s"
+                    className="text-sm text-gray-400 hover:text-teal-300 hover:-translate-x-1 transition-all duration-200"
                   >
                     {link.label}
                   </Link>
                 ))}
-              </Stack>
-            </Stack>
+              </div>
+            </div>
 
             {/* Newsletter */}
-            <Stack spacing={6}>
-              <Text fontSize="lg" fontWeight="600" color="white">
+            <div className="space-y-6">
+              <h3 className="text-lg font-semibold text-white">
                 النشرة البريدية
-              </Text>
-              <Text fontSize="sm" color="gray.400" lineHeight="tall">
+              </h3>
+              <p className="text-sm text-gray-400 leading-relaxed">
                 اشترك في نشرتنا البريدية للحصول على آخر العروض والتخفيضات
-              </Text>
-              <Box>
-                <InputGroup size="lg">
-                  <Input
-                    placeholder="البريد الإلكتروني"
-                    bg="gray.800"
-                    border="1px"
-                    borderColor="gray.600"
-                    color="white"
-                    _hover={{
-                      borderColor: 'teal.300',
-                    }}
-                    _focus={{
-                      borderColor: 'teal.300',
-                      boxShadow: '0 0 0 1px teal.300',
-                    }}
-                    fontSize="md"
-                  />
-                  <InputRightElement width="4.5rem">
-                    <Button
-                      size="sm"
-                      colorScheme="teal"
-                      h="1.75rem"
-                      leftIcon={<FiArrowLeft />}
-                      _hover={{
-                        transform: 'translateX(-4px)',
-                      }}
-                      transition="all 0.2s"
-                    >
-                      اشتراك
-                    </Button>
-                  </InputRightElement>
-                </InputGroup>
-              </Box>
-            </Stack>
-          </SimpleGrid>
+              </p>
+              <div className="relative">
+                <input
+                  type="email"
+                  placeholder="البريد الإلكتروني"
+                  className="w-full px-4 py-3 bg-gray-800 border border-gray-600 text-white rounded-lg focus:border-teal-300 focus:ring-1 focus:ring-teal-300 transition-all duration-200"
+                />
+                <button
+                  className="absolute left-2 top-1/2 -translate-y-1/2 flex items-center gap-2 px-3 py-1.5 bg-teal-500 text-white rounded hover:-translate-x-1 transition-all duration-200 text-sm"
+                >
+                  <FiArrowLeft className="w-4 h-4" />
+                  اشتراك
+                </button>
+              </div>
+            </div>
+          </div>
 
-          <Divider borderColor="gray.700" />
+          <hr className="border-gray-700" />
 
           {/* Bottom Section */}
-          <Stack
-            direction={{ base: 'column-reverse', md: 'row' }}
-            justify="space-between"
-            align="center"
-            spacing={{ base: 6, md: 0 }}
-          >
-            <Text fontSize="sm" color="gray.400" textAlign={{ base: "center", md: "start" }}>
-              © {new Date().getFullYear()} متجر الأحذية. جميع الحقوق محفوظة
-            </Text>
-            <HStack spacing={4}>
+          <div className="flex flex-col-reverse md:flex-row justify-between items-center gap-6 md:gap-0">
+            <p className="text-sm text-gray-400 text-center md:text-start">
+              &copy; {new Date().getFullYear()} متجر الأحذية. جميع الحقوق محفوظة
+            </p>
+            <div className="flex gap-4">
               {[
                 { icon: FiFacebook, href: 'https://facebook.com' },
                 { icon: FiTwitter, href: 'https://twitter.com' },
                 { icon: FiInstagram, href: 'https://instagram.com' },
                 { icon: FiYoutube, href: 'https://youtube.com' },
               ].map((social, index) => (
-                <IconButton
-                  key={index}
-                  as="a"
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`Visit our ${social.icon.name}`}
-                  icon={<Icon as={social.icon} />}
-                  size="md"
-                  color="gray.400"
-                  variant="ghost"
-                  rounded="full"
-                  _hover={{
-                    color: 'teal.300',
-                    transform: 'translateY(-2px)',
-                  }}
-                  transition="all 0.3s"
-                />
+                <SocialButton key={index} icon={social.icon} href={social.href} />
               ))}
-            </HStack>
-          </Stack>
-        </Stack>
-      </Container>
-    </Box>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
   );
 };
 

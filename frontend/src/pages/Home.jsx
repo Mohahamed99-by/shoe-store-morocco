@@ -1,27 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
-import {
-  Box,
-  Button,
-  Container,
-  Heading,
-  Text,
-  Stack,
-  Image,
-  SimpleGrid,
-  Flex,
-  Icon,
-  VStack,
-  HStack,
-  useColorModeValue,
-  AspectRatio,
-  Badge,
-  Divider,
-  useBreakpointValue,
-  Skeleton,
-  Input
-} from '@chakra-ui/react';
 import {
   FiTruck,
   FiCreditCard,
@@ -31,11 +10,6 @@ import {
   FiShoppingBag,
 } from 'react-icons/fi';
 import { motion } from 'framer-motion';
-
-// Wrap ChakraUI components with motion
-const MotionBox = motion(Box);
-const MotionBadge = motion(Badge);
-const MotionVStack = motion(VStack);
 
 const TrendingProducts = [
   {
@@ -99,7 +73,6 @@ const FeaturedCategories = [
   },
 ];
 
-
 const backgroundImages = [
   'https://images.unsplash.com/photo-1549298916-b41d501d3772',
   'https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb',
@@ -141,41 +114,19 @@ const Home = () => {
     };
   }, []);
 
-  const bgGradient = useColorModeValue(
-    'linear(to-r, teal.500, purple.500)',
-    'linear(to-r, teal.600, purple.600)',
-  );
-
-  const cardBg = useColorModeValue('white', 'gray.800');
-  const textColor = useColorModeValue('gray.700', 'gray.200');
-  const borderColor = useColorModeValue('teal.100', 'teal.700');
-
-  // Responsive font sizes
-  const heroHeadingSize = useBreakpointValue({ base: '3xl', sm: '4xl', md: '5xl', lg: '6xl' });
-  const sectionHeadingSize = useBreakpointValue({ base: 'xl', md: '2xl' });
-
   return (
-    <Box>
+    <div>
       {/* Hero Section */}
-      <Box
-        position="relative"
-        h={{ base: '90vh', lg: '85vh' }}
-        overflow="hidden"
-      >
+      <div className="relative h-[90vh] lg:h-[85vh] overflow-hidden">
         {/* Background Images with Scroll Effect */}
         {backgroundImages.map((image, index) => (
-          <MotionBox
+          <motion.div
             key={index}
-            position="absolute"
-            top={0}
-            left={0}
-            right={0}
-            bottom={0}
-            bgImage={`url('${image}')`}
-            bgSize="cover"
-            bgPosition="center"
-            bgRepeat="no-repeat"
-            filter="brightness(0.7)"
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat brightness-75"
+            style={{
+              backgroundImage: `url('${image}')`,
+              zIndex: currentImageIndex === index ? 1 : 0,
+            }}
             initial={{ opacity: 0, x: '100%' }}
             animate={{
               opacity: currentImageIndex === index ? 1 : 0,
@@ -185,480 +136,275 @@ const Home = () => {
               duration: 2,
               ease: 'easeInOut',
             }}
-            style={{
-              zIndex: currentImageIndex === index ? 1 : 0,
-            }}
           />
         ))}
         {/* Overlay Gradient */}
-        <Box
-          position="absolute"
-          top={0}
-          left={0}
-          right={0}
-          bottom={0}
-          bgGradient="linear(to-r, rgba(0,0,0,0.8), rgba(0,0,0,0.4))"
-        />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/80 to-black/40" />
 
         {/* Content */}
-        <Container maxW="container.xl" h="full" position="relative" zIndex={1}>
-          <Flex
-            direction="column"
-            justify="center"
-            align="center"
-            h="full"
-            maxW={{ base: '100%', lg: '80%' }}
-            mx="auto"
-            textAlign="center"
-            px={{ base: 4, lg: 0 }}
-          >
-            <MotionVStack
-              align="center"
-              spacing={{ base: 4, md: 6 }}
+        <div className="container mx-auto h-full relative z-10">
+          <div className="flex flex-col justify-center items-center h-full max-w-[80%] mx-auto text-center px-4 lg:px-0">
+            <motion.div
+              className="flex flex-col items-center space-y-4 md:space-y-6"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
             >
-              <MotionBadge
-                colorScheme="teal"
-                fontSize={{ base: 'sm', md: 'md' }}
-                px={3}
-                py={1}
-                bg="teal.500"
-                color="white"
+              <motion.span
+                className="bg-teal-500 text-white px-3 py-1 rounded-full text-sm md:text-md"
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ delay: 0.2 }}
               >
                 متجر متميز
-              </MotionBadge>
-              <Heading
-                as="h1"
-                fontSize={heroHeadingSize}
-                fontWeight="bold"
-                lineHeight="shorter"
-                color="white"
-                textShadow="2px 2px 4px rgba(0,0,0,0.3)"
-              >
+              </motion.span>
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight shadow-text">
                 اكتشف عالم الأناقة مع تشكيلة أحذيتنا العصرية
-              </Heading>
-              <Text
-                fontSize={{ base: 'lg', sm: 'xl', md: '2xl' }}
-                color="gray.100"
-                lineHeight="tall"
-                maxW="3xl"
-                textShadow="1px 1px 2px rgba(0,0,0,0.2)"
-              >
+              </h1>
+              <p className="text-lg sm:text-xl md:text-2xl text-gray-100 leading-relaxed max-w-3xl shadow-text">
                 نقدم لك أفضل الماركات العالمية بأسعار تنافسية مع خدمة توصيل سريعة وضمان الجودة
-              </Text>
-              <Stack
-                direction={{ base: 'column', sm: 'row' }}
-                spacing={{ base: 3, sm: 4 }}
-                w={{ base: 'full', sm: 'auto' }}
-                pt={2}
-              >
-                <Button
-                  as={RouterLink}
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto pt-2">
+                <Link
                   to="/products"
-                  size={{ base: 'lg', md: 'lg' }}
-                  colorScheme="teal"
-                  rightIcon={<FiShoppingBag />}
-                  px={8}
-                  w={{ base: 'full', sm: 'auto' }}
-                  _hover={{
-                    transform: 'translateY(-2px)',
-                    boxShadow: 'xl',
-                    bg: 'teal.600',
-                  }}
-                  transition="all 0.3s"
+                  className="inline-flex items-center justify-center px-8 py-3 text-base font-medium text-white bg-teal-500 rounded-lg hover:bg-teal-600 hover:-translate-y-1 shadow-lg transition-all duration-300"
                 >
-                  تسوق الآن
-                </Button>
-                <Button
-                  as={RouterLink}
+                  <span>تسوق الآن</span>
+                  <FiShoppingBag className="mr-2" />
+                </Link>
+                <Link
                   to="/products?sale=true"
-                  size={{ base: 'lg', md: 'lg' }}
-                  variant="outline"
-                  colorScheme="whiteAlpha"
-                  color="white"
-                  px={8}
-                  w={{ base: 'full', sm: 'auto' }}
-                  _hover={{
-                    bg: 'whiteAlpha.200',
-                    transform: 'translateY(-2px)',
-                  }}
-                  transition="all 0.3s"
+                  className="inline-flex items-center justify-center px-8 py-3 text-base font-medium text-white border-2 border-white rounded-lg hover:bg-white/20 hover:-translate-y-1 transition-all duration-300"
                 >
                   العروض
-                </Button>
-              </Stack>
-            </MotionVStack>
-          </Flex>
-        </Container>
-      </Box>
+                </Link>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </div>
 
-
-        {/* Features Section */}
-        <Box py={{ base: 12, md: 16 }} bg={useColorModeValue('white', 'gray.900')}>
-        <Container maxW="container.xl">
-          <VStack spacing={8}>
-            <Stack spacing={4} textAlign="center">
-              <Heading size={sectionHeadingSize}>لماذا تختارنا؟</Heading>
-              <Text fontSize={{ base: 'md', md: 'lg' }} color={textColor} maxW="2xl" mx="auto">
+      {/* Features Section */}
+      <div className="py-12 md:py-16 bg-white dark:bg-white">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col items-center space-y-8">
+            <div className="text-center space-y-4">
+              <h2 className="text-3xl md:text-4xl font-bold">لماذا تختارنا؟</h2>
+              <p className="text-gray-600 dark:text-gray-300 text-lg max-w-2xl mx-auto">
                 نقدم لك تجربة تسوق استثنائية مع مزايا حصرية
-              </Text>
-            </Stack>
+              </p>
+            </div>
             
-            <SimpleGrid columns={{ base: 1, md: 2, lg: 4 }} spacing={8} w="full">
-              <MotionBox
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 }}
-              >
-                <VStack
-                  p={6}
-                  bg={cardBg}
-                  rounded="xl"
-                  shadow="md"
-                  spacing={4}
-                  h="full"
-                  borderWidth="1px"
-                  borderColor={borderColor}
-                >
-                  <Icon as={FiTruck} w={8} h={8} color="teal.500" />
-                  <Heading size="md">توصيل مجاني</Heading>
-                  <Text textAlign="center" color={textColor}>
-                    توصيل مجاني لجميع الطلبات التي تزيد عن 500 ريال
-                  </Text>
-                </VStack>
-              </MotionBox>
-
-              <MotionBox
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-              >
-                <VStack
-                  p={6}
-                  bg={cardBg}
-                  rounded="xl"
-                  shadow="md"
-                  spacing={4}
-                  h="full"
-                  borderWidth="1px"
-                  borderColor={borderColor}
-                >
-                  <Icon as={FiCreditCard} w={8} h={8} color="teal.500" />
-                  <Heading size="md">دفع آمن</Heading>
-                  <Text textAlign="center" color={textColor}>
-                    طرق دفع متعددة وآمنة مع حماية كاملة لبياناتك
-                  </Text>
-                </VStack>
-              </MotionBox>
-
-              <MotionBox
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-              >
-                <VStack
-                  p={6}
-                  bg={cardBg}
-                  rounded="xl"
-                  shadow="md"
-                  spacing={4}
-                  h="full"
-                  borderWidth="1px"
-                  borderColor={borderColor}
-                >
-                  <Icon as={FiRefreshCw} w={8} h={8} color="teal.500" />
-                  <Heading size="md">استبدال سهل</Heading>
-                  <Text textAlign="center" color={textColor}>
-                    سياسة استبدال مرنة خلال 30 يوماً من الشراء
-                  </Text>
-                </VStack>
-              </MotionBox>
-
-              <MotionBox
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
-              >
-                <VStack
-                  p={6}
-                  bg={cardBg}
-                  rounded="xl"
-                  shadow="md"
-                  spacing={4}
-                  h="full"
-                  borderWidth="1px"
-                  borderColor={borderColor}
-                >
-                  <Icon as={FiPhoneCall} w={8} h={8} color="teal.500" />
-                  <Heading size="md">دعم متواصل</Heading>
-                  <Text textAlign="center" color={textColor}>
-                    فريق دعم متخصص متواجد على مدار الساعة لخدمتك
-                  </Text>
-                </VStack>
-              </MotionBox>
-            </SimpleGrid>
-          </VStack>
-        </Container>
-      </Box>
-
-      {/* Newsletter Section */}
-      <Box py={{ base: 12, md: 16 }} bg={useColorModeValue('gray.50', 'gray.800')}>
-        <Container maxW="container.xl">
-          <Stack
-            direction={{ base: 'column', md: 'row' }}
-            spacing={{ base: 8, md: 12 }}
-            align="center"
-            justify="space-between"
-            bg={cardBg}
-            p={{ base: 8, md: 12 }}
-            rounded="2xl"
-            shadow="xl"
-            borderWidth="1px"
-            borderColor={borderColor}
-          >
-            <VStack align={{ base: 'center', md: 'start' }} spacing={4} flex="1">
-              <Heading size={sectionHeadingSize}>اشترك في نشرتنا البريدية</Heading>
-              <Text fontSize={{ base: 'md', md: 'lg' }} color={textColor}>
-                احصل على آخر العروض والتخفيضات مباشرة في بريدك الإلكتروني
-              </Text>
-            </VStack>
-            <Stack
-              direction={{ base: 'column', sm: 'row' }}
-              spacing={4}
-              w={{ base: 'full', md: 'auto' }}
-            >
-              <Input
-                placeholder="البريد الإلكتروني"
-                size="lg"
-                bg={useColorModeValue('white', 'gray.700')}
-                borderColor={borderColor}
-                _placeholder={{ color: 'gray.400' }}
-                _hover={{ borderColor: 'teal.500' }}
-                _focus={{ borderColor: 'teal.500', shadow: 'outline' }}
-              />
-              <Button
-                colorScheme="teal"
-                size="lg"
-                px={8}
-                _hover={{
-                  transform: 'translateY(-2px)',
-                  shadow: 'lg',
-                }}
-                transition="all 0.3s"
-              >
-                اشترك الآن
-              </Button>
-            </Stack>
-          </Stack>
-        </Container>
-      </Box>
-
-
-      {/* Trending Products Section */}
-      <Box py={{ base: 12, md: 16 }} bg={useColorModeValue('white', 'gray.900')}>
-        <Container maxW="container.xl">
-          <VStack spacing={{ base: 10, md: 16 }}>
-            <Stack spacing={4} textAlign="center">
-              <Heading size={sectionHeadingSize}>المنتجات الرائجة</Heading>
-              <Text fontSize={{ base: 'md', md: 'lg' }} color={textColor} maxW="2xl" mx="auto">
-                اكتشف أحدث صيحات الموضة في عالم الأحذية
-              </Text>
-            </Stack>
-            
-            <SimpleGrid columns={{ base: 1, sm: 2, lg: 4 }} spacing={8} w="full">
-              {TrendingProducts.map((product, index) => (
-                <MotionBox
-                  key={product.id}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 w-full">
+              {[
+                {
+                  icon: FiTruck,
+                  title: 'توصيل مجاني',
+                  description: 'توصيل مجاني لجميع الطلبات التي تزيد عن 500 ريال'
+                },
+                {
+                  icon: FiCreditCard,
+                  title: 'دفع آمن',
+                  description: 'طرق دفع متعددة وآمنة مع حماية كاملة لبياناتك'
+                },
+                {
+                  icon: FiRefreshCw,
+                  title: 'استبدال سهل',
+                  description: 'سياسة استبدال مرنة خلال 30 يوماً من الشراء'
+                },
+                {
+                  icon: FiPhoneCall,
+                  title: 'دعم متواصل',
+                  description: 'فريق دعم متخصص متواجد على مدار الساعة لخدمتك'
+                }
+              ].map((feature, index) => (
+                <motion.div
+                  key={index}
+                  className="p-6 bg-white dark:bg-white rounded-xl shadow-md border border-gray-200 dark:border-gray-200"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
                 >
-                  <VStack
-                    bg={cardBg}
-                    rounded="xl"
-                    shadow="lg"
-                    overflow="hidden"
-                    spacing={0}
-                    h="full"
-                    _hover={{ transform: 'translateY(-8px)', shadow: 'xl' }}
-                    transition="all 0.3s"
-                  >
-                    <Box position="relative" w="full">
-                      <AspectRatio ratio={1}>
-                        <Image src={product.image} alt={product.name} objectFit="cover" />
-                      </AspectRatio>
-                      {product.sale && (
-                        <Badge
-                          position="absolute"
-                          top={2}
-                          right={2}
-                          colorScheme="red"
-                          variant="solid"
-                          rounded="md"
-                          px={2}
-                        >
-                          تخفيض
-                        </Badge>
-                      )}
-                    </Box>
-                    <VStack p={4} align="start" spacing={2} flex={1} w="full">
-                      <Text fontSize="sm" color="gray.500">
-                        {product.category}
-                      </Text>
-                      <Heading size="md" noOfLines={2}>
-                        {product.name}
-                      </Heading>
-                      <HStack spacing={2}>
-                        <Text fontWeight="bold" fontSize="xl" color="teal.500">
-                          {product.price} ريال
-                        </Text>
-                        {product.oldPrice && (
-                          <Text fontSize="md" color="gray.500" textDecoration="line-through">
-                            {product.oldPrice} ريال
-                          </Text>
-                        )}
-                      </HStack>
-                      <Button
-                        as={RouterLink}
-                        to={`/product/${product.id}`}
-                        colorScheme="teal"
-                        size="sm"
-                        w="full"
-                        mt="auto"
-                      >
-                        عرض المنتج
-                      </Button>
-                    </VStack>
-                  </VStack>
-                </MotionBox>
+                  <div className="flex flex-col items-center space-y-4 h-full">
+                    <feature.icon className="w-8 h-8 text-teal-500" />
+                    <h3 className="text-xl font-semibold">{feature.title}</h3>
+                    <p className="text-center text-gray-600 dark:text-gray-300">
+                      {feature.description}
+                    </p>
+                  </div>
+                </motion.div>
               ))}
-            </SimpleGrid>
-            
-            <Button
-              as={RouterLink}
-              to="/products"
-              size="lg"
-              colorScheme="teal"
-              variant="outline"
-              rightIcon={<FiArrowRight />}
-              _hover={{
-                transform: 'translateX(-4px)',
-                shadow: 'md'
-              }}
-            >
-              عرض جميع المنتجات
-            </Button>
-          </VStack>
-        </Container>
-      </Box>
+            </div>
+          </div>
+        </div>
+      </div>
 
-     
-      {/* Categories Section with Enhanced Animation */}
-      <Box
-        py={{ base: 12, md: 16 }}
-        bg={useColorModeValue('gray.50', 'gray.800')}
-      >
-        <Container maxW="container.xl">
-          <VStack spacing={{ base: 10, md: 16 }}>
-            <Stack spacing={{ base: 4, md: 6 }} textAlign="center" w="full">
-              <Heading size={sectionHeadingSize}>تصفح حسب الفئة</Heading>
-              <Text
-                fontSize={{ base: 'md', md: 'lg' }}
-                color={textColor}
-                maxW="2xl"
-                mx="auto"
+      {/* Newsletter Section */}
+      <div className="py-12 md:py-16 bg-white dark:bg-white">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col md:flex-row gap-8 md:gap-12 items-center justify-between bg-white dark:bg-white p-8 md:p-12 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-200">
+            <div className="flex flex-col items-center md:items-start space-y-4 flex-1">
+              <h2 className="text-3xl md:text-4xl font-bold">اشترك في نشرتنا البريدية</h2>
+              <p className="text-gray-600 dark:text-gray-300 text-lg">
+                احصل على آخر العروض والتخفيضات مباشرة في بريدك الإلكتروني
+              </p>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
+              <input
+                type="email"
+                placeholder="البريد الإلكتروني"
+                className="px-4 py-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:border-teal-500 focus:ring-1 focus:ring-teal-500 text-gray-900 dark:text-white"
+              />
+              <button
+                className="px-8 py-3 bg-teal-500 text-white rounded-lg hover:-translate-y-1 hover:shadow-lg transition-all duration-300"
               >
-                اختر من تشكيلتنا الواسعة من الأحذية المناسبة لجميع الأذواق والمناسبات
-              </Text>
-              <Divider maxW="100px" mx="auto" borderColor="teal.500" borderWidth={2} />
-            </Stack>
-            <SimpleGrid
-              columns={{ base: 1, md: 3 }}
-              spacing={{ base: 8, md: 10 }}
-              w="100%"
+                اشترك الآن
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Trending Products Section */}
+      <div className="py-16 md:py-20 bg-gradient-to-b from-white to-gray-50 dark:from-white dark:to-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col items-center space-y-12 md:space-y-20">
+            <div className="text-center space-y-4 max-w-3xl mx-auto">
+              <span className="text-teal-500 font-semibold text-sm md:text-base bg-teal-50 px-4 py-1 rounded-full">
+                منتجاتنا المميزة
+              </span>
+              <h2 className="text-3xl md:text-5xl font-bold bg-gradient-to-r from-teal-600 to-teal-400 bg-clip-text text-transparent">
+                المنتجات الرائجة
+              </h2>
+              <p className="text-gray-600 dark:text-gray-600 text-lg md:text-xl leading-relaxed">
+                اكتشف أحدث صيحات الموضة في عالم الأحذية
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 w-full">
+              {TrendingProducts.map((product, index) => (
+                <motion.div
+                  key={product.id}
+                  className="group bg-white dark:bg-white rounded-2xl shadow-sm hover:shadow-2xl overflow-hidden transition-all duration-500 ease-out transform hover:-translate-y-2"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                >
+                  <div className="relative">
+                    <div className="aspect-[4/3] overflow-hidden">
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 ease-out"
+                      />
+                    </div>
+                    {product.sale && (
+                      <span className="absolute top-3 right-3 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-medium shadow-lg">
+                        تخفيض
+                      </span>
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  </div>
+                  <div className="p-6 flex flex-col space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="px-3 py-1 bg-teal-50 text-teal-600 rounded-full text-sm font-medium">
+                        {product.category}
+                      </span>
+                      <div className="flex items-center text-yellow-400 text-sm">
+                        {'★'.repeat(Math.floor(product.rating))}
+                        <span className="text-gray-400 text-xs mr-1">({product.rating})</span>
+                      </div>
+                    </div>
+                    <h3 className="text-xl font-bold text-gray-800 line-clamp-2 min-h-[3.5rem]">
+                      {product.name}
+                    </h3>
+                    <div className="flex items-center gap-3">
+                      <span className="text-2xl font-bold text-teal-500">
+                        {product.price} ريال
+                      </span>
+                      {product.oldPrice && (
+                        <span className="text-gray-400 line-through text-lg">
+                          {product.oldPrice} ريال
+                        </span>
+                      )}
+                    </div>
+                    <Link
+                      to={`/product/${product.id}`}
+                      className="mt-4 w-full px-6 py-3 bg-teal-500 text-white text-center rounded-xl font-medium 
+                        transform hover:bg-teal-600 hover:shadow-lg transition-all duration-300 
+                        flex items-center justify-center gap-2 group-hover:scale-[1.02]"
+                    >
+                      <span>عرض المنتج</span>
+                      <FiArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:-translate-x-1" />
+                    </Link>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+            
+            <Link
+              to="/products"
+              className="inline-flex items-center px-8 py-4 bg-white text-teal-500 rounded-xl font-medium
+                shadow-md hover:shadow-xl border-2 border-teal-500 hover:bg-teal-50
+                transform hover:-translate-y-1 transition-all duration-300 gap-3"
             >
+              <span>عرض جميع المنتجات</span>
+              <FiArrowRight className="w-5 h-5 transition-transform group-hover:-translate-x-1" />
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      {/* Categories Section */}
+      <div className="py-12 md:py-16 bg-white dark:bg-white">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col items-center space-y-10 md:space-y-16">
+            <div className="text-center space-y-4 w-full">
+              <h2 className="text-3xl md:text-4xl font-bold">تصفح حسب الفئة</h2>
+              <p className="text-gray-600 dark:text-gray-300 text-lg max-w-2xl mx-auto">
+                اختر من تشكيلتنا الواسعة من الأحذية المناسبة لجميع الأذواق والمناسبات
+              </p>
+              <div className="w-24 h-1 bg-teal-500 mx-auto mt-4"></div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10 w-full">
               {FeaturedCategories.map((category, index) => (
-                <MotionBox
+                <motion.div
                   key={index}
-                  as={RouterLink}
-                  to={category.href}
-                  position="relative"
-                  role="group"
-                  overflow="hidden"
-                  rounded="xl"
-                  shadow="lg"
+                  className="relative overflow-hidden rounded-xl shadow-lg group"
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: index * 0.2 }}
                   whileHover={{ scale: 1.02 }}
                 >
-                  <AspectRatio ratio={4 / 3}>
-                    <Image
-                      src={category.image}
-                      alt={category.title}
-                      objectFit="cover"
-                      transition="0.3s"
-                      _groupHover={{
-                        transform: 'scale(1.1)',
-                      }}
-                    />
-                  </AspectRatio>
-                  <Box
-                    position="absolute"
-                    inset="0"
-                    bgGradient="linear(to-t, blackAlpha.800, blackAlpha.400)"
-                    transition="0.3s"
-                    _groupHover={{ opacity: 0.8 }}
-                  />
-                  <VStack
-                    position="absolute"
-                    bottom="0"
-                    w="100%"
-                    p={{ base: 6, md: 8 }}
-                    spacing={3}
-                  >
-                    <Heading
-                      size={{ base: 'md', md: 'lg' }}
-                      color="white"
-                      textShadow="2px 2px 4px rgba(0,0,0,0.3)"
-                    >
-                      {category.title}
-                    </Heading>
-                    <Text
-                      color="gray.100"
-                      fontSize={{ base: 'sm', md: 'md' }}
-                      textAlign="center"
-                      textShadow="1px 1px 2px rgba(0,0,0,0.2)"
-                    >
-                      {category.description}
-                    </Text>
-                    <Button
-                      variant="solid"
-                      colorScheme="teal"
-                      size={{ base: 'sm', md: 'md' }}
-                      rightIcon={<FiArrowRight />}
-                      _hover={{
-                        transform: 'translateY(-2px)',
-                        shadow: 'lg',
-                        bg: 'teal.600',
-                      }}
-                      transition="all 0.3s"
-                    >
-                      تصفح الفئة
-                    </Button>
-                  </VStack>
-                </MotionBox>
+                  <Link to={category.href}>
+                    <div className="aspect-[4/3]">
+                      <img
+                        src={category.image}
+                        alt={category.title}
+                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                      />
+                    </div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-black/40 transition-opacity duration-300 group-hover:opacity-80" />
+                    <div className="absolute bottom-0 w-full p-6 md:p-8 space-y-3">
+                      <h3 className="text-xl md:text-2xl font-bold text-white drop-shadow-lg">
+                        {category.title}
+                      </h3>
+                      <p className="text-gray-100 text-sm md:text-base text-center drop-shadow-md">
+                        {category.description}
+                      </p>
+                      <button className="w-full px-4 py-2 bg-teal-500 text-white rounded hover:-translate-y-1 hover:shadow-lg hover:bg-teal-600 transition-all duration-300 flex items-center justify-center gap-2">
+                        تصفح الفئة
+                        <FiArrowRight />
+                      </button>
+                    </div>
+                  </Link>
+                </motion.div>
               ))}
-            </SimpleGrid>
-          </VStack>
-        </Container>
-      </Box>
-    </Box>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 

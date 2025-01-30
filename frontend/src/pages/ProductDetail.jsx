@@ -1,41 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import {
-  Box,
-  Container,
-  Grid,
-  Image,
-  Text,
-  Heading,
-  Stack,
-  Button,
-  Badge,
-  HStack,
-  VStack,
-  useToast,
-  Tabs,
-  TabList,
-  TabPanels,
-  Tab,
-  TabPanel,
-  List,
-  ListItem,
-  ListIcon,
-  Divider,
-  useColorModeValue,
-  IconButton,
-  SimpleGrid,
-  Progress,
-  Flex,
-} from '@chakra-ui/react';
 import { FiHeart, FiShoppingCart, FiCheck, FiTruck, FiRefreshCcw, FiShield, FiStar } from 'react-icons/fi';
 import { useCart } from '../context/CartContext';
 
 const ProductDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const toast = useToast();
   const [selectedSize, setSelectedSize] = useState('');
   const [selectedColor, setSelectedColor] = useState('');
   const [selectedImage, setSelectedImage] = useState(0);
@@ -45,12 +16,9 @@ const ProductDetail = () => {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
-  const bgColor = useColorModeValue('white', 'gray.800');
-  const borderColor = useColorModeValue('teal.100', 'teal.700');
-  const textColor = useColorModeValue('gray.700', 'gray.300');
-  const primaryColor = useColorModeValue('teal.500', 'teal.300');
-  const secondaryColor = useColorModeValue('purple.500', 'purple.300');
+  const [activeTab, setActiveTab] = useState(0);
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState({ title: '', description: '', type: '' });
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -59,7 +27,6 @@ const ProductDetail = () => {
         const response = await axios.get(`https://shoe-store-morocco.onrender.com/products/${id}`);
         const productData = response.data;
         
-        // Set default values for missing fields
         setProduct({
           ...productData,
           images: productData.images || [productData.image],
@@ -85,27 +52,15 @@ const ProductDetail = () => {
     fetchProduct();
   }, [id, navigate]);
 
-  if (loading) {
-    return (
-      <Box minH="100vh" display="flex" alignItems="center" justifyContent="center">
-        <Text>Loading...</Text>
-      </Box>
-    );
-  }
-
-  if (error || !product) {
-    return null;
-  }
+  const showToastMessage = (title, description, type) => {
+    setToastMessage({ title, description, type });
+    setShowToast(true);
+    setTimeout(() => setShowToast(false), 3000);
+  };
 
   const handleAddToCart = () => {
     if (!selectedSize || !selectedColor) {
-      toast({
-        title: 'تنبيه',
-        description: 'الرجاء اختيار المقاس واللون',
-        status: 'warning',
-        duration: 3000,
-        isClosable: true,
-      });
+      showToastMessage('تنبيه', 'الرجاء اختيار المقاس واللون', 'warning');
       return;
     }
 
@@ -116,304 +71,287 @@ const ProductDetail = () => {
       quantity
     });
     
-    toast({
-      title: 'تمت الإضافة',
-      description: 'تمت إضافة المنتج إلى سلة التسوق',
-      status: 'success',
-      duration: 3000,
-      isClosable: true,
-    });
+    showToastMessage('تمت الإضافة', 'تمت إضافة المنتج إلى سلة التسوق', 'success');
   };
 
   const toggleWishlist = () => {
     setIsWishlist(!isWishlist);
-    toast({
-      title: isWishlist ? 'تمت الإزالة' : 'تمت الإضافة',
-      description: isWishlist ? 'تم إزالة المنتج من المفضلة' : 'تمت إضافة المنتج إلى المفضلة',
-      status: 'success',
-      duration: 3000,
-      isClosable: true,
-    });
+    showToastMessage(
+      isWishlist ? 'تمت الإزالة' : 'تمت الإضافة',
+      isWishlist ? 'تم إزالة المنتج من المفضلة' : 'تمت إضافة المنتج إلى المفضلة',
+      'success'
+    );
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-gray-600">Loading...</div>
+      </div>
+    );
+  }
+
+  if (error || !product) {
+    return null;
+  }
 
   const totalReviews = Object.values(product.ratingBreakdown).reduce((a, b) => a + b, 0);
 
   return (
-    <Box bg={useColorModeValue('gray.50', 'gray.900')} minH="100vh" py={8}>
-      <Container maxW="container.xl">
-        <Grid templateColumns={{ base: '1fr', lg: '1fr 1fr' }} gap={8}>
+    <div className="min-h-screen py-8 bg-white">
+      <div className="container mx-auto px-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
           {/* Product Images */}
-          <Box bg={bgColor} p={6} borderRadius="lg" shadow="md">
-            <Box position="relative" mb={6}>
-              <Image
+          <div className="bg-white p-6 rounded-lg shadow-md">
+            <div className="relative mb-6">
+              <img
                 src={product.images[selectedImage]}
                 alt={`${product.name} - صورة ${selectedImage + 1}`}
-                borderRadius="lg"
-                w="100%"
-                h={{ base: "300px", md: "500px" }}
-                objectFit="cover"
+                className="w-full h-[300px] md:h-[500px] object-cover rounded-lg"
               />
-              <IconButton
-                icon={<FiHeart fill={isWishlist ? 'red' : 'none'} />}
-                aria-label="Add to wishlist"
-                position="absolute"
-                top={4}
-                right={4}
-                colorScheme={isWishlist ? 'red' : 'gray'}
+              <button
                 onClick={toggleWishlist}
-              />
-            </Box>
-            <SimpleGrid columns={3} spacing={4}>
+                className={`absolute top-4 right-4 p-2 rounded-full ${
+                  isWishlist ? 'bg-red-500 text-white' : 'bg-white text-gray-600'
+                } hover:scale-110 transition-transform duration-200 shadow-lg`}
+              >
+                <FiHeart className={isWishlist ? 'fill-current' : ''} size={20} />
+              </button>
+            </div>
+            <div className="grid grid-cols-3 gap-4">
               {product.images.map((image, index) => (
-                <Box
+                <div
                   key={index}
-                  borderWidth={selectedImage === index ? "2px" : "1px"}
-                  borderColor={selectedImage === index ? "teal.500" : borderColor}
-                  borderRadius="md"
-                  overflow="hidden"
-                  cursor="pointer"
                   onClick={() => setSelectedImage(index)}
-                  transition="all 0.2s"
-                  _hover={{ opacity: 0.8 }}
+                  className={`cursor-pointer rounded-md overflow-hidden border-2 transition-all duration-200 hover:opacity-80
+                    ${selectedImage === index ? 'border-teal-500' : 'border-gray-200'}`}
                 >
-                  <Image
+                  <img
                     src={image}
                     alt={`${product.name} - صورة ${index + 1}`}
-                    w="100%"
-                    h="100px"
-                    objectFit="cover"
+                    className="w-full h-[100px] object-cover"
                   />
-                </Box>
+                </div>
               ))}
-            </SimpleGrid>
-          </Box>
-
+            </div>
+          </div>
           {/* Product Info */}
-          <Stack spacing={6} bg={bgColor} p={6} borderRadius="lg" shadow="md">
-            <Box>
-              <HStack spacing={2} mb={2}>
-                <Badge colorScheme="teal" fontSize="sm">
+          <div className="bg-white p-6 rounded-lg shadow-md space-y-6">
+            <div>
+              <div className="flex gap-2 mb-2">
+                <span className="px-2 py-1 text-sm bg-teal-100 text-teal-800 rounded-full">
                   {product.brand}
-                </Badge>
-                <Badge colorScheme="purple" fontSize="sm">
+                </span>
+                <span className="px-2 py-1 text-sm bg-purple-100 text-purple-800 rounded-full">
                   متوفر
-                </Badge>
-              </HStack>
-              <Heading size="lg" mb={2}>
+                </span>
+              </div>
+              <h1 className="text-2xl font-bold mb-2 text-gray-800">
                 {product.name}
-              </Heading>
-              <HStack spacing={2} mb={4}>
-                <HStack color="purple.400">
-                  <FiStar fill="currentColor" />
-                  <Text fontWeight="bold">{product.rating}</Text>
-                </HStack>
-                <Text color={textColor}>({product.reviews} تقييم)</Text>
-              </HStack>
-              <Text fontSize="2xl" fontWeight="bold" color={primaryColor}>
+              </h1>
+              <div className="flex items-center gap-2 mb-4">
+                <div className="flex items-center text-purple-500">
+                  <FiStar className="fill-current" />
+                  <span className="font-bold ml-1">{product.rating}</span>
+                </div>
+                <span className="text-gray-600">
+                  ({product.reviews} تقييم)
+                </span>
+              </div>
+              <div className="text-2xl font-bold text-teal-600">
                 {product.price} ريال
-              </Text>
-            </Box>
+              </div>
+            </div>
 
-            <Divider />
+            <div className="border-t border-gray-200 my-6"></div>
 
             {/* Selections */}
-            <Stack spacing={4}>
-              <Box>
-                <Text fontWeight="bold" mb={2}>المقاس</Text>
-                <SimpleGrid columns={6} spacing={2}>
+            <div className="space-y-4">
+              <div>
+                <label className="block font-bold mb-2">المقاس</label>
+                <div className="grid grid-cols-6 gap-2">
                   {product.sizes.map((size) => (
-                    <Button
+                    <button
                       key={size}
-                      size="sm"
-                      variant={selectedSize === size ? 'solid' : 'outline'}
-                      colorScheme="teal"
                       onClick={() => setSelectedSize(size)}
-                      w="100%"
-                      _hover={{
-                        bg: selectedSize === size ? 'teal.600' : 'teal.50',
-                      }}
+                      className={`py-2 rounded-md transition-colors duration-200
+                        ${selectedSize === size
+                          ? 'bg-teal-500 text-white hover:bg-teal-600'
+                          : 'border border-teal-500 text-teal-500 hover:bg-teal-50'
+                        }`}
                     >
                       {size}
-                    </Button>
+                    </button>
                   ))}
-                </SimpleGrid>
-              </Box>
+                </div>
+              </div>
 
-              <Box>
-                <Text fontWeight="bold" mb={2}>اللون</Text>
-                <SimpleGrid columns={3} spacing={2}>
+              <div>
+                <label className="block font-bold mb-2">اللون</label>
+                <div className="grid grid-cols-3 gap-2">
                   {product.colors.map((color) => (
-                    <Button
+                    <button
                       key={color}
-                      size="sm"
-                      variant={selectedColor === color ? 'solid' : 'outline'}
-                      colorScheme="teal"
                       onClick={() => setSelectedColor(color)}
-                      w="100%"
-                      _hover={{
-                        bg: selectedColor === color ? 'teal.600' : 'teal.50',
-                      }}
+                      className={`py-2 rounded-md transition-colors duration-200
+                        ${selectedColor === color
+                          ? 'bg-teal-500 text-white hover:bg-teal-600'
+                          : 'border border-teal-500 text-teal-500 hover:bg-teal-50'
+                        }`}
                     >
                       {color}
-                    </Button>
+                    </button>
                   ))}
-                </SimpleGrid>
-              </Box>
+                </div>
+              </div>
 
-              <Box>
-                <Text fontWeight="bold" mb={2}>الكمية</Text>
-                <HStack maxW="200px">
-                  <Button
+              <div>
+                <label className="block font-bold mb-2">الكمية</label>
+                <div className="flex items-center max-w-[200px]">
+                  <button
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
                     disabled={quantity <= 1}
-                    colorScheme="teal"
-                    variant="outline"
+                    className="px-4 py-2 border border-teal-500 text-teal-500 rounded-md hover:bg-teal-50 disabled:opacity-50"
                   >
                     -
-                  </Button>
-                  <Text px={4} fontWeight="bold" color={textColor}>
+                  </button>
+                  <span className="px-4 font-bold text-gray-700">
                     {quantity}
-                  </Text>
-                  <Button
+                  </span>
+                  <button
                     onClick={() => setQuantity(quantity + 1)}
                     disabled={quantity >= 10}
-                    colorScheme="teal"
-                    variant="outline"
+                    className="px-4 py-2 border border-teal-500 text-teal-500 rounded-md hover:bg-teal-50 disabled:opacity-50"
                   >
                     +
-                  </Button>
-                </HStack>
-              </Box>
-            </Stack>
+                  </button>
+                </div>
+              </div>
+            </div>
 
-            <Button
-              colorScheme="teal"
-              size="lg"
-              leftIcon={<FiShoppingCart />}
+            <button
               onClick={handleAddToCart}
-              isFullWidth
-              _hover={{
-                bg: 'teal.600',
-                transform: 'translateY(-2px)',
-                shadow: 'lg',
-              }}
-              transition="all 0.3s"
+              className="w-full flex items-center justify-center gap-2 bg-teal-500 text-white py-4 rounded-lg
+                hover:bg-teal-600 hover:-translate-y-0.5 hover:shadow-lg transition-all duration-300"
             >
-              إضافة إلى السلة
-            </Button>
+              <FiShoppingCart size={20} />
+              <span>إضافة إلى السلة</span>
+            </button>
 
             {/* Features */}
-            <SimpleGrid columns={{ base: 1, md: 3 }} spacing={4}>
-              <VStack
-                p={4}
-                bg={useColorModeValue('teal.50', 'rgba(49, 151, 149, 0.1)')}
-                borderRadius="md"
-                align="center"
-                transition="all 0.3s"
-                _hover={{ transform: 'translateY(-2px)', shadow: 'md' }}
-              >
-                <Box color="teal.500">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="p-4 bg-white rounded-md text-center hover:-translate-y-0.5 hover:shadow-md transition-all duration-300">
+                <div className="text-teal-500 flex justify-center mb-2">
                   <FiTruck size={24} />
-                </Box>
-                <Text fontWeight="bold" fontSize="sm">شحن مجاني</Text>
-                <Text fontSize="sm" color={textColor} textAlign="center">
+                </div>
+                <h3 className="font-bold text-sm mb-1">شحن مجاني</h3>
+                <p className="text-sm text-gray-600">
                   للطلبات فوق 200 ريال
-                </Text>
-              </VStack>
-              <VStack
-                p={4}
-                bg={useColorModeValue('purple.50', 'rgba(128, 90, 213, 0.1)')}
-                borderRadius="md"
-                align="center"
-                transition="all 0.3s"
-                _hover={{ transform: 'translateY(-2px)', shadow: 'md' }}
-              >
-                <Box color="purple.500">
+                </p>
+              </div>
+              <div className="p-4 bg-white rounded-md text-center hover:-translate-y-0.5 hover:shadow-md transition-all duration-300">
+                <div className="text-purple-500 flex justify-center mb-2">
                   <FiRefreshCcw size={24} />
-                </Box>
-                <Text fontWeight="bold" fontSize="sm">إرجاع مجاني</Text>
-                <Text fontSize="sm" color={textColor} textAlign="center">
+                </div>
+                <h3 className="font-bold text-sm mb-1">إرجاع مجاني</h3>
+                <p className="text-sm text-gray-600">
                   خلال 30 يوم
-                </Text>
-              </VStack>
-              <VStack
-                p={4}
-                bg={useColorModeValue('teal.50', 'rgba(49, 151, 149, 0.1)')}
-                borderRadius="md"
-                align="center"
-                transition="all 0.3s"
-                _hover={{ transform: 'translateY(-2px)', shadow: 'md' }}
-              >
-                <Box color="teal.500">
+                </p>
+              </div>
+              <div className="p-4 bg-white rounded-md text-center hover:-translate-y-0.5 hover:shadow-md transition-all duration-300">
+                <div className="text-teal-500 flex justify-center mb-2">
                   <FiShield size={24} />
-                </Box>
-                <Text fontWeight="bold" fontSize="sm">ضمان الجودة</Text>
-                <Text fontSize="sm" color={textColor} textAlign="center">
+                </div>
+                <h3 className="font-bold text-sm mb-1">ضمان الجودة</h3>
+                <p className="text-sm text-gray-600">
                   منتجات أصلية 100%
-                </Text>
-              </VStack>
-            </SimpleGrid>
+                </p>
+              </div>
+            </div>
 
             {/* Tabs */}
-            <Tabs colorScheme="teal">
-              <TabList>
-                <Tab>الوصف</Tab>
-                <Tab>المميزات</Tab>
-                <Tab>التقييمات</Tab>
-              </TabList>
+            <div className="border-t border-gray-200 pt-6">
+              <div className="flex border-b border-gray-200">
+                {['الوصف', 'المميزات', 'التقييمات'].map((tab, index) => (
+                  <button
+                    key={tab}
+                    onClick={() => setActiveTab(index)}
+                    className={`px-4 py-2 -mb-px font-medium transition-colors duration-200
+                      ${activeTab === index
+                        ? 'border-b-2 border-teal-500 text-teal-600'
+                        : 'text-gray-600 hover:text-teal-500'
+                      }`}
+                  >
+                    {tab}
+                  </button>
+                ))}
+              </div>
 
-              <TabPanels>
-                <TabPanel>
-                  <Text color={textColor}>{product.description}</Text>
-                </TabPanel>
+              <div className="pt-4">
+                {activeTab === 0 && (
+                  <p className="text-gray-600">
+                    {product.description}
+                  </p>
+                )}
 
-                <TabPanel>
-                  <List spacing={3}>
+                {activeTab === 1 && (
+                  <ul className="space-y-3">
                     {product.features.map((feature, index) => (
-                      <ListItem key={index}>
-                        <ListIcon as={FiCheck} color="teal.500" />
-                        {feature}
-                      </ListItem>
+                      <li key={index} className="flex items-center gap-2">
+                        <FiCheck className="text-teal-500 flex-shrink-0" />
+                        <span className="text-gray-600">{feature}</span>
+                      </li>
                     ))}
-                  </List>
-                </TabPanel>
+                  </ul>
+                )}
 
-                <TabPanel>
-                  <VStack align="stretch" spacing={4}>
-                    <HStack justify="space-between">
-                      <Box>
-                        <Text fontSize="3xl" fontWeight="bold">
+                {activeTab === 2 && (
+                  <div className="space-y-4">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <div className="text-3xl font-bold text-gray-800">
                           {product.rating}
-                        </Text>
-                        <Text color={textColor}>
+                        </div>
+                        <div className="text-gray-600">
                           من 5 ({totalReviews} تقييم)
-                        </Text>
-                      </Box>
-                      <VStack align="stretch" flex="1" maxW="400px">
+                        </div>
+                      </div>
+                      <div className="flex-1 max-w-[400px] space-y-2">
                         {Object.entries(product.ratingBreakdown)
                           .reverse()
                           .map(([rating, count]) => (
-                            <HStack key={rating} spacing={4}>
-                              <Text w="10px">{rating}</Text>
-                              <Progress
-                                value={(count / totalReviews) * 100}
-                                size="sm"
-                                colorScheme="teal"
-                                flex="1"
-                              />
-                              <Text w="40px">{count}</Text>
-                            </HStack>
+                            <div key={rating} className="flex items-center gap-4">
+                              <span className="w-4">{rating}</span>
+                              <div className="flex-1 bg-gray-200 rounded-full h-2">
+                                <div
+                                  className="bg-teal-500 h-2 rounded-full"
+                                  style={{ width: `${(count / totalReviews) * 100}%` }}
+                                />
+                              </div>
+                              <span className="w-10">{count}</span>
+                            </div>
                           ))}
-                      </VStack>
-                    </HStack>
-                  </VStack>
-                </TabPanel>
-              </TabPanels>
-            </Tabs>
-          </Stack>
-        </Grid>
-      </Container>
-    </Box>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Toast Notification */}
+      {showToast && (
+        <div className={`fixed bottom-4 right-4 p-4 rounded-lg shadow-lg transition-all transform duration-300
+          ${toastMessage.type === 'success' ? 'bg-green-500' : 'bg-yellow-500'} text-white`}
+        >
+          <h4 className="font-bold">{toastMessage.title}</h4>
+          <p className="text-sm">{toastMessage.description}</p>
+        </div>
+      )}
+    </div>
   );
 };
 

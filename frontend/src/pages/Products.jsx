@@ -1,33 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Link as RouterLink, useSearchParams } from 'react-router-dom';
-import {
-  Box,
-  Container,
-  SimpleGrid,
-  Image,
-  Heading,
-  Text,
-  Badge,
-  Stack,
-  Button,
-  Select,
-  HStack,
-  Wrap,
-  WrapItem,
-  useToast,
-  IconButton,
-  VStack,
-  Divider,
-  Flex,
-  useColorModeValue,
-  Input,
-  InputGroup,
-  InputLeftElement,
-  AspectRatio,
-  Icon,
-  Spinner,
-  Center
-} from '@chakra-ui/react';
 import { FiHeart, FiSearch, FiCalendar, FiUser, FiShoppingBag } from 'react-icons/fi';
 import axios from 'axios';
 
@@ -41,14 +13,8 @@ const Products = () => {
   const [selectedCategory, setSelectedCategory] = useState(searchParams.get('category') || 'all');
   const [selectedType, setSelectedType] = useState('all');
   const [wishlist, setWishlist] = useState([]);
-  const toast = useToast();
-
-  const bgColor = useColorModeValue('gray.50', 'gray.900');
-  const cardBg = useColorModeValue('white', 'gray.800');
-  const borderColor = useColorModeValue('teal.100', 'teal.700');
-  const textColor = useColorModeValue('gray.700', 'gray.300');
-  const primaryColor = useColorModeValue('teal.500', 'teal.300');
-  const secondaryColor = useColorModeValue('purple.500', 'purple.300');
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState({ title: '', status: '' });
 
   // Fetch products from API
   useEffect(() => {
@@ -60,18 +26,12 @@ const Products = () => {
       } catch (err) {
         setError('Failed to fetch products');
         setLoading(false);
-        toast({
-          title: 'Error',
-          description: 'Failed to fetch products',
-          status: 'error',
-          duration: 5000,
-          isClosable: true,
-        });
+        showToastMessage('Error', 'error');
       }
     };
 
     fetchProducts();
-  }, [toast]);
+  }, []);
 
   // Update category when URL parameter changes
   useEffect(() => {
@@ -80,6 +40,12 @@ const Products = () => {
       setSelectedCategory(category);
     }
   }, [searchParams]);
+
+  const showToastMessage = (title, status) => {
+    setToastMessage({ title, status });
+    setShowToast(true);
+    setTimeout(() => setShowToast(false), 3000);
+  };
 
   const getCategoryLabel = (category) => {
     const categories = {
@@ -115,244 +81,192 @@ const Products = () => {
         ? prev.filter(id => id !== productId)
         : [...prev, productId];
       
-      toast({
-        title: isInWishlist ? 'تمت الإزالة من المفضلة' : 'تمت الإضافة إلى المفضلة',
-        status: 'success',
-        duration: 2000,
-        isClosable: true,
-      });
+      showToastMessage(
+        isInWishlist ? 'تمت الإزالة من المفضلة' : 'تمت الإضافة إلى المفضلة',
+        'success'
+      );
 
       return newWishlist;
     });
   };
 
   const renderProductCard = (product) => (
-    <Box
+    <div
       key={product.id}
-      bg={cardBg}
-      borderWidth="1px"
-      borderColor={borderColor}
-      borderRadius="lg"
-      overflow="hidden"
-      transition="all 0.3s"
-      _hover={{ 
-        transform: 'translateY(-5px)', 
-        shadow: 'lg',
-        borderColor: 'teal.300'
-      }}
-      position="relative"
+      className="bg-white border border-teal-100 rounded-lg overflow-hidden
+        transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-teal-300 relative"
     >
       <RouterLink to={`/product/${product.id}`}>
-        <AspectRatio ratio={1}>
-          <Image
+        <div className="aspect-square">
+          <img
             src={product.image}
             alt={product.name}
-            objectFit="cover"
-            w="100%"
-            h="100%"
+            className="w-full h-full object-cover"
           />
-        </AspectRatio>
+        </div>
       </RouterLink>
-      <IconButton
-        icon={<FiHeart fill={wishlist.includes(product.id) ? 'red' : 'none'} />}
-        aria-label="Add to wishlist"
-        position="absolute"
-        top={4}
-        right={4}
-        colorScheme={wishlist.includes(product.id) ? 'red' : 'gray'}
-        variant="solid"
-        bg="white"
+      <button
         onClick={() => toggleWishlist(product.id)}
-        _hover={{ transform: 'scale(1.1)' }}
-      />
+        className={`absolute top-4 right-4 p-2 rounded-full bg-white hover:scale-110 transition-transform
+          ${wishlist.includes(product.id) ? 'text-red-500' : 'text-gray-600'}`}
+      >
+        <FiHeart className={wishlist.includes(product.id) ? 'fill-current' : ''} size={20} />
+      </button>
       {!product.inStock && (
-        <Badge
-          position="absolute"
-          top={4}
-          left={4}
-          colorScheme="red"
-          variant="solid"
-        >
+        <span className="absolute top-4 left-4 px-2 py-1 text-sm bg-red-500 text-white rounded-full">
           نفذت الكمية
-        </Badge>
+        </span>
       )}
-      <VStack p={6} align="stretch" spacing={4}>
-        <HStack fontSize="sm" color={textColor} spacing={4}>
-          <Flex align="center">
-            <Icon as={FiCalendar} mr={2} />
-            <Text>28 يناير 2025</Text>
-          </Flex>
-          <Flex align="center">
-            <Icon as={FiUser} mr={2} />
-            <Text>{getCategoryLabel(product.category)}</Text>
-          </Flex>
-        </HStack>
+      <div className="p-6 space-y-4">
+        <div className="flex text-sm text-gray-600 space-x-4 rtl:space-x-reverse">
+          <div className="flex items-center">
+            <FiCalendar className="mr-2" />
+            <span>28 يناير 2025</span>
+          </div>
+          <div className="flex items-center">
+            <FiUser className="mr-2" />
+            <span>{getCategoryLabel(product.category)}</span>
+          </div>
+        </div>
 
-        <VStack align="stretch" spacing={2}>
-          <Heading size="md" noOfLines={2}>
+        <div className="space-y-2">
+          <h2 className="text-xl font-bold text-gray-800 line-clamp-2">
             {product.name}
-          </Heading>
-          <Text color={textColor} noOfLines={2}>
+          </h2>
+          <p className="text-gray-600 line-clamp-2">
             حذاء {product.type} من ماركة {product.brand} متوفر بعدة مقاسات وألوان.
-          </Text>
-        </VStack>
+          </p>
+        </div>
 
-        <HStack justify="space-between" align="center">
-          <Text fontWeight="bold" fontSize="xl" color={primaryColor}>
+        <div className="flex justify-between items-center">
+          <span className="text-xl font-bold text-teal-500">
             {product.price} ريال
-          </Text>
-          <Badge colorScheme="teal" fontSize="sm" px={2} py={1}>
+          </span>
+          <span className="px-2 py-1 text-sm bg-teal-100 text-teal-800 rounded-full">
             {product.brand}
-          </Badge>
-        </HStack>
+          </span>
+        </div>
 
-        <Wrap spacing={2}>
-          <WrapItem>
-            <Badge colorScheme="teal">{product.type}</Badge>
-          </WrapItem>
-          <WrapItem>
-            <Badge colorScheme="purple">
-              {product.rating} ★ ({product.reviews})
-            </Badge>
-          </WrapItem>
-        </Wrap>
+        <div className="flex flex-wrap gap-2">
+          <span className="px-2 py-1 text-sm bg-teal-100 text-teal-800 rounded-full">
+            {product.type}
+          </span>
+          <span className="px-2 py-1 text-sm bg-purple-100 text-purple-800 rounded-full">
+            {product.rating} ★ ({product.reviews})
+          </span>
+        </div>
 
-        <Button
-          as={RouterLink}
+        <RouterLink
           to={`/product/${product.id}`}
-          colorScheme="teal"
-          width="100%"
-          isDisabled={!product.inStock}
-          leftIcon={<FiShoppingBag />}
-          _hover={{
-            bg: 'teal.600',
-            transform: 'translateY(-2px)',
-            shadow: 'lg',
-          }}
-          transition="all 0.3s"
+          className={`w-full flex items-center justify-center gap-2 py-3 rounded-lg transition-all duration-300
+            ${product.inStock 
+              ? 'bg-teal-500 hover:bg-teal-600 hover:-translate-y-0.5 hover:shadow-lg text-white'
+              : 'bg-gray-300 cursor-not-allowed text-gray-600'}`}
         >
-          {product.inStock ? 'عرض التفاصيل' : 'نفذت الكمية'}
-        </Button>
-      </VStack>
-    </Box>
+          <FiShoppingBag />
+          <span>{product.inStock ? 'عرض التفاصيل' : 'نفذت الكمية'}</span>
+        </RouterLink>
+      </div>
+    </div>
   );
 
   if (loading) {
     return (
-      <Center h="100vh">
-        <Spinner size="xl" color="teal.500" />
-      </Center>
+      <div className="h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-500"></div>
+      </div>
     );
   }
 
   if (error) {
     return (
-      <Center h="100vh">
-        <VStack spacing={4}>
-          <Heading size="md" color="red.500">{error}</Heading>
-          <Button colorScheme="teal" onClick={() => window.location.reload()}>
+      <div className="h-screen flex items-center justify-center">
+        <div className="text-center space-y-4">
+          <h2 className="text-xl font-bold text-red-500">{error}</h2>
+          <button
+            onClick={() => window.location.reload()}
+            className="px-4 py-2 bg-teal-500 text-white rounded-lg hover:bg-teal-600 transition-colors"
+          >
             Try Again
-          </Button>
-        </VStack>
-      </Center>
+          </button>
+        </div>
+      </div>
     );
   }
 
   return (
-    <Box>
+    <div className="bg-white">
       {/* Header Section */}
-      <Box 
-        bg={bgColor} 
-        borderBottom="1px" 
-        borderColor={borderColor} 
-        py={8}
-        position="relative"
-        overflow="hidden"
-      >
+      <div className="bg-white border-b border-teal-100 py-8 relative overflow-hidden">
         {/* Background Decoration */}
-        <Box
-          position="absolute"
-          top="-20%"
-          right="-10%"
-          width="600px"
-          height="600px"
-          bg={useColorModeValue('teal.50', 'teal.900')}
-          opacity="0.1"
-          borderRadius="full"
-        />
-        <Box
-          position="absolute"
-          bottom="-10%"
-          left="-5%"
-          width="400px"
-          height="400px"
-          bg={useColorModeValue('purple.50', 'purple.900')}
-          opacity="0.1"
-          borderRadius="full"
-        />
-        <Container maxW="container.xl">
-          <VStack spacing={6} align="stretch">
-            <Heading size="2xl" textAlign="center" 
-              bgGradient="linear(to-r, teal.400, purple.500)"
-              bgClip="text"
-            >متجر الأحذية</Heading>
-            <Text fontSize="lg" color={textColor} textAlign="center">
+        <div className="absolute top-[-20%] right-[-10%] w-[600px] h-[600px] bg-teal-50 opacity-10 rounded-full" />
+        <div className="absolute bottom-[-10%] left-[-5%] w-[400px] h-[400px] bg-purple-50 opacity-10 rounded-full" />
+        <div className="container mx-auto px-4">
+          <div className="space-y-6">
+            <h1 className="text-4xl font-bold text-center bg-gradient-to-r from-teal-400 to-purple-500 bg-clip-text text-transparent">
+              متجر الأحذية
+            </h1>
+            <p className="text-lg text-gray-600 text-center">
               اكتشف مجموعتنا الواسعة من الأحذية العصرية والأنيقة
-            </Text>
-            <Divider maxW="100px" mx="auto" borderColor="teal.500" borderWidth={2} />
-          </VStack>
-        </Container>
-      </Box>
+            </p>
+            <div className="max-w-[100px] mx-auto border-t-2 border-teal-500"></div>
+          </div>
+        </div>
+      </div>
 
       {/* Filters Section */}
-      <Container maxW="container.xl" py={8}>
-        <VStack spacing={8}>
-          <HStack 
-            spacing={4} 
-            w="full" 
-            bg={cardBg}
-            p={4}
-            borderRadius="lg"
-            borderWidth="1px"
-            borderColor={borderColor}
-            flexWrap={{ base: "wrap", md: "nowrap" }}
-            gap={4}
-          >
-            <InputGroup maxW={{ base: "full", md: "320px" }}>
-              <InputLeftElement pointerEvents="none">
-                <FiSearch color="gray.300" />
-              </InputLeftElement>
-              <Input placeholder="ابحث عن منتج..." />
-            </InputGroup>
-            <Select 
-              value={selectedCategory} 
+      <div className="container mx-auto px-4 py-8">
+        <div className="space-y-8">
+          <div className="flex flex-wrap md:flex-nowrap gap-4 bg-white p-4 rounded-lg border border-teal-100">
+            <div className="relative w-full md:w-80">
+              <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+              <input
+                type="text"
+                placeholder="ابحث عن منتج..."
+                className="w-full pl-10 pr-4 py-2 bg-white border border-gray-200 rounded-lg
+                  focus:outline-none focus:border-teal-500"
+              />
+            </div>
+            <select
+              value={selectedCategory}
               onChange={handleCategoryChange}
-              bg={cardBg}
+              className="w-full md:w-auto px-4 py-2 bg-white border border-gray-200 rounded-lg
+                focus:outline-none focus:border-teal-500"
             >
               <option value="all">جميع الفئات</option>
               <option value="men">رجال</option>
               <option value="women">نساء</option>
               <option value="kids">أطفال</option>
-            </Select>
-            <Select 
-              value={selectedType} 
+            </select>
+            <select
+              value={selectedType}
               onChange={(e) => setSelectedType(e.target.value)}
-              bg={cardBg}
+              className="w-full md:w-auto px-4 py-2 bg-white border border-gray-200 rounded-lg
+                focus:outline-none focus:border-teal-500"
             >
               <option value="all">جميع الأنواع</option>
               <option value="رياضي">رياضي</option>
               <option value="كاجوال">كاجوال</option>
               <option value="رسمي">رسمي</option>
               <option value="مدرسي">مدرسي</option>
-            </Select>
-          </HStack>
+            </select>
+          </div>
 
-          <SimpleGrid columns={{ base: 1, sm: 2, md: 3 }} spacing={8} w="full">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
             {filteredProducts.map((product) => renderProductCard(product))}
-          </SimpleGrid>
-        </VStack>
-      </Container>
-    </Box>
+          </div>
+        </div>
+      </div>
+
+      {/* Toast Notification */}
+      {showToast && (
+        <div className={`fixed bottom-4 right-4 p-4 rounded-lg shadow-lg transition-all transform duration-300
+          ${toastMessage.status === 'success' ? 'bg-green-500' : 'bg-red-500'} text-white`}
+        >
+          <h4 className="font-bold">{toastMessage.title}</h4>
+        </div>
+      )}
+    </div>
   );
 };
 

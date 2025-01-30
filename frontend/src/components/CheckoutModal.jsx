@@ -1,24 +1,8 @@
-import React from 'react';
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalCloseButton,
-  FormControl,
-  FormLabel,
-  Input,
-  Button,
-  VStack,
-  Alert,
-  AlertIcon,
-  FormErrorMessage,
-  useToast,
-} from '@chakra-ui/react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useCart } from '../context/CartContext';
 import emailjs from '@emailjs/browser';
+import { FiX, FiAlertTriangle } from 'react-icons/fi';
 
 const CheckoutModal = ({ isOpen, onClose }) => {
   const {
@@ -29,8 +13,13 @@ const CheckoutModal = ({ isOpen, onClose }) => {
   } = useForm();
 
   const { cartItems, clearCart, getCartTotal } = useCart();
-  const toast = useToast();
-  const [isProcessing, setIsProcessing] = React.useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [toast, setToast] = useState({ show: false, title: '', status: '', description: '' });
+
+  const showToast = (title, description, status) => {
+    setToast({ show: true, title, description, status });
+    setTimeout(() => setToast({ show: false, title: '', description: '', status: '' }), 5000);
+  };
 
   const formatOrderDetails = (formData) => {
     const total = getCartTotal();
@@ -64,7 +53,7 @@ ${orderDetails}
 
     return {
       name: formData.name,
-      email: formData.phone, // Using phone number in email field since we don't collect email
+      email: formData.phone,
       message: message
     };
   };
@@ -93,110 +82,154 @@ ${orderDetails}
       clearCart();
       reset();
       onClose();
-      toast({
-        title: 'تم الطلب بنجاح',
-        description: 'تم استلام طلبك وسيتم التواصل معك قريباً',
-        status: 'success',
-        duration: 5000,
-        isClosable: true,
-      });
+      showToast(
+        'تم الطلب بنجاح',
+        'تم استلام طلبك وسيتم التواصل معك قريباً',
+        'success'
+      );
     } else {
-      toast({
-        title: 'حدث خطأ',
-        description: 'لم نتمكن من إرسال طلبك، يرجى المحاولة مرة أخرى',
-        status: 'error',
-        duration: 5000,
-        isClosable: true,
-      });
+      showToast(
+        'حدث خطأ',
+        'لم نتمكن من إرسال طلبك، يرجى المحاولة مرة أخرى',
+        'error'
+      );
     }
     
     setIsProcessing(false);
   };
 
+  if (!isOpen) return null;
+
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size="xl">
-      <ModalOverlay />
-      <ModalContent>
-        <ModalHeader>معلومات التوصيل</ModalHeader>
-        <ModalCloseButton />
-        <ModalBody pb={6}>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <VStack spacing={4}>
-              <FormControl isInvalid={errors.name}>
-                <FormLabel>الاسم الكامل</FormLabel>
-                <Input
-                  {...register('name', {
-                    required: 'هذا الحقل مطلوب',
-                    minLength: { value: 3, message: 'الاسم قصير جداً' }
-                  })}
-                />
-                <FormErrorMessage>
-                  {errors.name && errors.name.message}
-                </FormErrorMessage>
-              </FormControl>
+    <div className="fixed inset-0 z-50 overflow-y-auto">
+      {/* Overlay */}
+      <div className="fixed inset-0 bg-black bg-opacity-50 transition-opacity" onClick={onClose} />
 
-              <FormControl isInvalid={errors.phone}>
-                <FormLabel>رقم الجوال</FormLabel>
-                <Input
-                  type="tel"
-                  {...register('phone', {
-                    required: 'هذا الحقل مطلوب',
-                    pattern: {
-                      value: /^[0-9]{10}$/,
-                      message: 'رقم جوال غير صالح'
-                    }
-                  })}
-                />
-                <FormErrorMessage>
-                  {errors.phone && errors.phone.message}
-                </FormErrorMessage>
-              </FormControl>
+      {/* Modal */}
+      <div className="flex min-h-full items-center justify-center p-4">
+        <div className="relative bg-white rounded-lg shadow-xl max-w-xl w-full">
+          {/* Header */}
+          <div className="flex justify-between items-center p-6 border-b border-gray-200">
+            <h2 className="text-xl font-bold">معلومات التوصيل</h2>
+            <button
+              onClick={onClose}
+              className="text-gray-400 hover:text-gray-500 transition-colors"
+            >
+              <FiX size={24} />
+            </button>
+          </div>
 
-              <FormControl isInvalid={errors.address}>
-                <FormLabel>العنوان التفصيلي</FormLabel>
-                <Input
-                  {...register('address', {
-                    required: 'هذا الحقل مطلوب',
-                    minLength: { value: 10, message: 'يرجى كتابة عنوان تفصيلي' }
-                  })}
-                />
-                <FormErrorMessage>
-                  {errors.address && errors.address.message}
-                </FormErrorMessage>
-              </FormControl>
+          {/* Body */}
+          <div className="p-6">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+              <div className="space-y-4">
+                {/* Name Field */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    الاسم الكامل
+                  </label>
+                  <input
+                    {...register('name', {
+                      required: 'هذا الحقل مطلوب',
+                      minLength: { value: 3, message: 'الاسم قصير جداً' }
+                    })}
+                    className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none transition-colors
+                      ${errors.name ? 'border-red-500' : 'border-gray-300'}`}
+                  />
+                  {errors.name && (
+                    <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>
+                  )}
+                </div>
 
-              <FormControl isInvalid={errors.city}>
-                <FormLabel>المدينة</FormLabel>
-                <Input
-                  {...register('city', {
-                    required: 'هذا الحقل مطلوب'
-                  })}
-                />
-                <FormErrorMessage>
-                  {errors.city && errors.city.message}
-                </FormErrorMessage>
-              </FormControl>
+                {/* Phone Field */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    رقم الجوال
+                  </label>
+                  <input
+                    type="tel"
+                    {...register('phone', {
+                      required: 'هذا الحقل مطلوب',
+                      pattern: {
+                        value: /^[0-9]{10}$/,
+                        message: 'رقم جوال غير صالح'
+                      }
+                    })}
+                    className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none transition-colors
+                      ${errors.phone ? 'border-red-500' : 'border-gray-300'}`}
+                  />
+                  {errors.phone && (
+                    <p className="mt-1 text-sm text-red-600">{errors.phone.message}</p>
+                  )}
+                </div>
 
-              <Alert status="warning">
-                <AlertIcon />
-                سيتم الدفع عند الاستلام
-              </Alert>
+                {/* Address Field */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    العنوان التفصيلي
+                  </label>
+                  <input
+                    {...register('address', {
+                      required: 'هذا الحقل مطلوب',
+                      minLength: { value: 10, message: 'يرجى كتابة عنوان تفصيلي' }
+                    })}
+                    className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none transition-colors
+                      ${errors.address ? 'border-red-500' : 'border-gray-300'}`}
+                  />
+                  {errors.address && (
+                    <p className="mt-1 text-sm text-red-600">{errors.address.message}</p>
+                  )}
+                </div>
 
-              <Button
-                colorScheme="teal"
-                size="lg"
-                width="100%"
-                type="submit"
-                isLoading={isProcessing}
-                loadingText="جاري إرسال الطلب..."
-              >
-                تأكيد الطلب
-              </Button>
-            </VStack>
-          </form>
-        </ModalBody>
-      </ModalContent>
-    </Modal>
+                {/* City Field */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    المدينة
+                  </label>
+                  <input
+                    {...register('city', {
+                      required: 'هذا الحقل مطلوب'
+                    })}
+                    className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none transition-colors
+                      ${errors.city ? 'border-red-500' : 'border-gray-300'}`}
+                  />
+                  {errors.city && (
+                    <p className="mt-1 text-sm text-red-600">{errors.city.message}</p>
+                  )}
+                </div>
+
+                {/* Alert */}
+                <div className="flex items-center gap-2 p-4 bg-yellow-50 text-yellow-800 rounded-lg">
+                  <FiAlertTriangle className="flex-shrink-0" />
+                  <span>سيتم الدفع عند الاستلام</span>
+                </div>
+
+                {/* Submit Button */}
+                <button
+                  type="submit"
+                  disabled={isProcessing}
+                  className="w-full py-3 bg-teal-500 text-white rounded-lg font-bold
+                    hover:bg-teal-600 focus:ring-4 focus:ring-teal-500/20 transition-all
+                    disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isProcessing ? 'جاري إرسال الطلب...' : 'تأكيد الطلب'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      {/* Toast Notification */}
+      {toast.show && (
+        <div className={`fixed bottom-4 right-4 p-4 rounded-lg shadow-lg transition-all transform duration-300
+          ${toast.status === 'success' ? 'bg-green-500' : 'bg-red-500'} text-white`}
+        >
+          <h4 className="font-bold">{toast.title}</h4>
+          <p className="text-sm">{toast.description}</p>
+        </div>
+      )}
+    </div>
   );
 };
 
