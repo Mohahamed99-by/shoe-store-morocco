@@ -39,119 +39,149 @@ const Cart = () => {
 
   if (cartItems.length === 0) {
     return (
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex flex-col items-center space-y-8">
-          <h1 className="text-3xl font-bold">سلة التسوق فارغة</h1>
-          <p className="text-gray-600">لم تقم بإضافة أي منتجات إلى السلة بعد</p>
-          <RouterLink
-            to="/products"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-teal-500 text-white rounded-lg
-              hover:-translate-y-0.5 hover:shadow-md hover:bg-teal-600 transition-all duration-300"
-          >
-            <FiArrowLeft />
-            <span>تصفح المنتجات</span>
-          </RouterLink>
+      <div className="min-h-[60vh] flex items-center">
+        <div className="w-full max-w-md mx-auto px-4 py-8 text-center">
+          <div className="bg-white rounded-2xl p-6 sm:p-8 space-y-6">
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">سلة التسوق فارغة</h1>
+            <p className="text-gray-600">لم تقم بإضافة أي منتجات إلى السلة بعد</p>
+            <RouterLink
+              to="/products"
+              className="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-6 py-3 bg-black text-white rounded-xl
+                hover:bg-gray-900 active:scale-[0.98] transition-all duration-200 font-medium"
+            >
+              <FiArrowLeft />
+              <span>تصفح المنتجات</span>
+            </RouterLink>
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2 space-y-6">
-          <h1 className="text-3xl font-bold mb-4">سلة التسوق ({cartItems.length})</h1>
-          {cartItems.map((item) => (
-            <div
-              key={`${item.id}-${item.size}-${item.color}`}
-              className="p-4 border border-teal-100 rounded-lg bg-white hover:shadow-sm transition-shadow duration-200"
-            >
-              <div className="grid grid-cols-1 sm:grid-cols-[120px,1fr] gap-4">
-                <img
-                  src={item.image}
-                  alt={item.name}
-                  className="h-[120px] w-[120px] object-cover rounded-md"
-                />
-                <div className="space-y-4">
-                  <div>
-                    <div className="flex justify-between">
-                      <h2 className="text-xl font-bold">{item.name}</h2>
-                      <button
-                        onClick={() => handleRemoveItem(item)}
-                        className="p-2 text-red-500 hover:bg-red-50 hover:scale-110 transition-all duration-200 rounded-full"
-                      >
-                        <FiTrash2 size={20} />
-                      </button>
-                    </div>
-                    <p className="text-sm text-gray-600">
-                      {item.brand} • المقاس: {item.size} • اللون: {item.color}
-                    </p>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <div className="flex items-center gap-2">
-                      <button
-                        onClick={() => handleQuantityChange(item, -1)}
-                        disabled={item.quantity <= 1}
-                        className="p-1 border border-teal-500 text-teal-500 rounded-md hover:bg-teal-50 
-                          disabled:opacity-50 disabled:cursor-not-allowed"
-                      >
-                        <FiMinus size={16} />
-                      </button>
-                      <span className="font-bold min-w-[32px] text-center text-gray-700">
-                        {item.quantity}
-                      </span>
-                      <button
-                        onClick={() => handleQuantityChange(item, 1)}
-                        className="p-1 border border-teal-500 text-teal-500 rounded-md hover:bg-teal-50"
-                      >
-                        <FiPlus size={16} />
-                      </button>
-                    </div>
-                    <span className="font-bold text-lg text-teal-500">
-                      {item.price * item.quantity} ريال
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div className="lg:col-span-1">
-          <div className="sticky top-5 p-6 border border-teal-100 rounded-lg bg-white shadow-sm">
-            <div className="space-y-6">
-              <h2 className="text-xl font-bold bg-gradient-to-r from-teal-400 to-purple-500 bg-clip-text text-transparent">
-                ملخص الطلب
-              </h2>
-              <div className="space-y-4">
-                <div className="flex justify-between">
-                  <span className="text-gray-600">المجموع الفرعي:</span>
-                  <span className="text-gray-600 font-medium">{subtotal} ريال</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">الشحن:</span>
-                  <span className={shippingCost === 0 ? "text-teal-500 font-medium" : "text-gray-600 font-medium"}>
-                    {shippingCost === 0 ? 'مجاني' : `${shippingCost} ريال`}
-                  </span>
-                </div>
-                <hr className="border-t border-teal-100" />
-                <div className="flex justify-between font-bold">
-                  <span className="text-gray-600">الإجمالي:</span>
-                  <span className="text-teal-500">{total} ريال</span>
-                </div>
-              </div>
-
-              <button
-                onClick={() => setIsCheckoutModalOpen(true)}
-                className="w-full py-4 bg-teal-500 text-white rounded-lg font-bold
-                  hover:bg-teal-600 hover:-translate-y-0.5 hover:shadow-lg transition-all duration-300"
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4 py-4 sm:py-8 lg:py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
+          {/* Cart Items */}
+          <div className="lg:col-span-8 space-y-4 sm:space-y-6">
+            <div className="flex items-center justify-between">
+              <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">
+                سلة التسوق ({cartItems.length})
+              </h1>
+              <RouterLink
+                to="/products"
+                className="inline-flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-black"
               >
-                إتمام الطلب
-              </button>
+                <FiArrowLeft size={16} />
+                <span>متابعة التسوق</span>
+              </RouterLink>
+            </div>
 
-              <div className="flex items-center justify-center gap-2 text-teal-500">
-                <FiTruck />
-                <span className="text-sm text-gray-600">الدفع عند الاستلام متاح</span>
+            <div className="space-y-4">
+              {cartItems.map((item) => (
+                <div
+                  key={`${item.id}-${item.size}-${item.color}`}
+                  className="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-200"
+                >
+                  <div className="p-4 sm:p-6">
+                    <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
+                      <div className="relative aspect-square w-full sm:w-[120px] rounded-lg overflow-hidden bg-gray-100">
+                        <img
+                          src={item.image}
+                          alt={item.name}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      
+                      <div className="flex-1 space-y-3 sm:space-y-4">
+                        <div>
+                          <div className="flex justify-between items-start gap-4">
+                            <div>
+                              <h2 className="text-lg font-bold text-gray-900 mb-1">{item.name}</h2>
+                              <p className="text-sm text-gray-600">
+                                {item.brand} • المقاس: {item.size} • اللون: {item.color}
+                              </p>
+                            </div>
+                            <button
+                              onClick={() => handleRemoveItem(item)}
+                              className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all duration-200"
+                            >
+                              <FiTrash2 size={18} />
+                            </button>
+                          </div>
+                        </div>
+
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                          <div className="inline-flex items-center rounded-lg bg-gray-50">
+                            <button
+                              onClick={() => handleQuantityChange(item, -1)}
+                              disabled={item.quantity <= 1}
+                              className="p-2.5 text-gray-600 hover:text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                              <FiMinus size={16} />
+                            </button>
+                            <span className="w-12 text-center font-medium text-gray-900">
+                              {item.quantity}
+                            </span>
+                            <button
+                              onClick={() => handleQuantityChange(item, 1)}
+                              className="p-2.5 text-gray-600 hover:text-gray-900"
+                            >
+                              <FiPlus size={16} />
+                            </button>
+                          </div>
+                          <div className="font-bold text-lg text-gray-900">
+                            {item.price * item.quantity} ريال
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Order Summary */}
+          <div className="lg:col-span-4">
+            <div className="sticky top-4">
+              <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+                <div className="p-4 sm:p-6 space-y-6">
+                  <h2 className="text-lg sm:text-xl font-bold text-gray-900">
+                    ملخص الطلب
+                  </h2>
+                  
+                  <div className="space-y-4">
+                    <div className="flex justify-between text-sm sm:text-base">
+                      <span className="text-gray-600">المجموع الفرعي:</span>
+                      <span className="font-medium text-gray-900">{subtotal} ريال</span>
+                    </div>
+                    <div className="flex justify-between text-sm sm:text-base">
+                      <span className="text-gray-600">الشحن:</span>
+                      <span className={shippingCost === 0 ? "text-teal-500 font-medium" : "text-gray-900 font-medium"}>
+                        {shippingCost === 0 ? 'مجاني' : `${shippingCost} ريال`}
+                      </span>
+                    </div>
+                    <div className="border-t border-gray-100 -mx-6" />
+                    <div className="flex justify-between items-center">
+                      <span className="font-medium text-gray-900">الإجمالي:</span>
+                      <span className="text-xl font-bold text-gray-900">{total} ريال</span>
+                    </div>
+                  </div>
+
+                  <button
+                    onClick={() => setIsCheckoutModalOpen(true)}
+                    className="w-full flex items-center justify-center gap-2 py-4 bg-black text-white rounded-xl
+                      hover:bg-gray-900 active:scale-[0.98] transition-all duration-200 font-medium"
+                  >
+                    <span>إتمام الطلب</span>
+                  </button>
+
+                  <div className="flex items-center justify-center gap-2 text-gray-600">
+                    <FiTruck size={16} />
+                    <span className="text-sm">الدفع عند الاستلام متاح</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -165,10 +195,12 @@ const Cart = () => {
 
       {/* Toast Notification */}
       {showToast && (
-        <div className={`fixed bottom-4 right-4 p-4 rounded-lg shadow-lg transition-all transform duration-300
-          ${toastMessage.status === 'success' ? 'bg-green-500' : 'bg-red-500'} text-white`}
-        >
-          <h4 className="font-bold">{toastMessage.title}</h4>
+        <div className="fixed bottom-4 right-4 z-50">
+          <div className={`px-6 py-4 rounded-xl shadow-lg transform transition-all duration-300
+            ${toastMessage.status === 'success' ? 'bg-green-500' : 'bg-red-500'} text-white`}
+          >
+            <h4 className="font-medium text-sm">{toastMessage.title}</h4>
+          </div>
         </div>
       )}
     </div>
