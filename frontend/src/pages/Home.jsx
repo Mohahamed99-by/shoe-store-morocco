@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet'; // Add this import
 import axios from 'axios';
 import {
   FiTruck,
@@ -81,6 +82,29 @@ const Home = () => {
 
   return (
     <div>
+      {/* Add Helmet for SEO */}
+      <Helmet>
+        <title>متجر الأحذية المغربي - تشكيلة متميزة من الأحذية العصرية</title>
+        <meta name="description" content="اكتشف أحدث تشكيلات الأحذية للرجال والنساء والأطفال. توفير أحذية عالية الجودة بأسعار تنافسية مع خدمة توصيل سريعة." />
+
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://shoe-store-pi-three.vercel.app/" />
+        <meta property="og:title" content="متجر الأحذية المغربي - تشكيلة متميزة من الأحذية العصرية" />
+        <meta property="og:description" content="اكتشف أحدث تشكيلات الأحذية للرجال والنساء والأطفال. توفير أحذية عالية الجودة بأسعار تنافسية مع خدمة توصيل سريعة." />
+        <meta property="og:image" content="https://images.unsplash.com/photo-1549298916-b41d501d3772" />
+
+        {/* Twitter */}
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content="https://shoe-store-pi-three.vercel.app/" />
+        <meta property="twitter:title" content="متجر الأحذية المغربي - تشكيلة متميزة من الأحذية العصرية" />
+        <meta property="twitter:description" content="اكتشف أحدث تشكيلات الأحذية للرجال والنساء والأطفال. توفير أحذية عالية الجودة بأسعار تنافسية مع خدمة توصيل سريعة." />
+        <meta property="twitter:image" content="https://images.unsplash.com/photo-1549298916-b41d501d3772" />
+
+        {/* Additional SEO meta tags */}
+        <meta name="keywords" content="أحذية, متجر أحذية, أحذية رجالية, أحذية نسائية, أحذية أطفال, تسوق أحذية, ماركات أحذية" />
+        <link rel="canonical" href="https://shoe-store-pi-three.vercel.app/" />
+      </Helmet>
       {/* Hero Section */}
       <div className="relative h-[80vh] sm:h-[85vh] lg:h-[90vh] overflow-hidden">
         {/* Background Images with Scroll Effect */}
@@ -158,7 +182,7 @@ const Home = () => {
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6">تجربة تسوق لا مثيل لها</h2>
               <div className="w-24 h-1 bg-teal-500 mx-auto rounded-full"></div>
             </div>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 w-full">
               {[
                 {
@@ -233,8 +257,8 @@ const Home = () => {
                 </div>
               </div>
               <div className="relative hidden md:block">
-                <img 
-                  src="https://billyfootwear.com/cdn/shop/files/BW24171-420_45_lateral_940x614_b8c6572b-2796-42aa-9010-aa7f2c102975.jpg?v=1719356349&width=533" 
+                <img
+                  src="https://billyfootwear.com/cdn/shop/files/BW24171-420_45_lateral_940x614_b8c6572b-2796-42aa-9010-aa7f2c102975.jpg?v=1719356349&width=533"
                   alt="Newsletter"
                   className="rounded-2xl shadow-lg transform -rotate-6 hover:rotate-0 transition-transform duration-500"
                 />
@@ -256,7 +280,7 @@ const Home = () => {
                 تصاميم عصرية تجمع بين الأناقة والراحة لتناسب أسلوب حياتك
               </p>
             </div>
-            
+
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 w-full">
               {products.map((product, index) => (
                 <motion.div
@@ -311,7 +335,7 @@ const Home = () => {
                 </motion.div>
               ))}
             </div>
-            
+
             <Link
               to="/products"
               className="mt-16 inline-flex items-center px-8 py-4 bg-black text-white rounded-full font-medium
@@ -329,7 +353,7 @@ const Home = () => {
         <div className="container mx-auto px-4 sm:px-6">
           <div className="flex flex-col items-center space-y-12 md:space-y-16">
             <div className="text-center max-w-3xl mx-auto">
-              <motion.span 
+              <motion.span
                 className="inline-block text-teal-600 text-sm font-medium tracking-wider uppercase mb-4"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -338,7 +362,7 @@ const Home = () => {
               >
                 تصنيفات مميزة
               </motion.span>
-              <motion.h2 
+              <motion.h2
                 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -347,7 +371,7 @@ const Home = () => {
               >
                 تصفح حسب الفئة
               </motion.h2>
-              <motion.p 
+              <motion.p
                 className="text-gray-600 text-base sm:text-lg md:text-xl max-w-2xl mx-auto"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -378,7 +402,7 @@ const Home = () => {
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-300" />
                     </div>
-                    
+
                     <div className="absolute inset-0 flex flex-col justify-end p-8 sm:p-10">
                       <motion.div
                         initial={{ opacity: 0, y: 20 }}
@@ -393,14 +417,14 @@ const Home = () => {
                             {index + 1 < 10 ? `0${index + 1}` : index + 1}
                           </span>
                         </div>
-                        
+
                         <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3">
                           {category.title}
                         </h3>
                         <p className="text-gray-300 text-base sm:text-lg mb-6 max-w-md">
                           {category.description}
                         </p>
-                        
+
                         <div className="flex items-center gap-4 text-white group/btn">
                           <span className="font-medium group-hover/btn:text-teal-400 transition-colors duration-300">
                             تصفح الفئة
